@@ -14,6 +14,10 @@ public final class PlatformHolder {
         instance = platform;
     }
 
+    public static boolean isInitialized() {
+        return instance != null;
+    }
+
     public static Platform get() {
         Platform platform = instance;
         if (platform == null) {
