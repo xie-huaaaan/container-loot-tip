@@ -1,4 +1,4 @@
-package dev.container_loot_tip.config;
+package dev.containerloottip.config;
 
 /** Amount of detail shown by the panel. The button cycles through the values in this order. */
 public enum DetailLevel {

@@ -1,4 +1,4 @@
-package dev.container_loot_tip.info;
+package dev.containerloottip.info;
 
 /** Where the container's loot table was captured from. */
 public enum LootSource {
