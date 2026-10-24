@@ -23,7 +23,7 @@ public final class ClientSettings {
     private static ClientSettings instance;
 
     private boolean collapsed;
-    private DetailLevel detailLevel = DetailLevel.STANDARD;
+    private DetailLevel detailLevel = DetailLevel.COMPACT;
 
     private ClientSettings() {
     }

@@ -3,6 +3,7 @@ package dev.containerloottip.client;
 import dev.containerloottip.client.link.TableOpeners;
 import dev.containerloottip.config.ClientSettings;
 import dev.containerloottip.config.DetailLevel;
+import dev.containerloottip.info.ContainerKind;
 import dev.containerloottip.info.ContainerLootInfo;
 import dev.containerloottip.info.LootSource;
 import net.minecraft.client.Minecraft;
@@ -120,7 +121,7 @@ public final class LootInfoPanel {
             graphics.fill(x + 1, y + 1, x + TAB_WIDTH - 1, y + TAB_HEIGHT - 1, COLOR_HOVER);
         }
 
-        graphics.drawCenteredString(Minecraft.getInstance().font, "»", x + TAB_WIDTH / 2, y + TAB_HEIGHT / 2 - 4, COLOR_LINK);
+        graphics.drawCenteredString(Minecraft.getInstance().font, "«", x + TAB_WIDTH / 2, y + TAB_HEIGHT / 2 - 4, COLOR_LINK);
         tabBox = new Box(x, y, TAB_WIDTH, TAB_HEIGHT);
         panelBox = tabBox;
     }
@@ -155,7 +156,7 @@ public final class LootInfoPanel {
             graphics.fill(collapseX - 1, collapseY - 1, collapseX + 10, collapseY + 10, COLOR_HOVER);
         }
 
-        graphics.drawString(font, "«", collapseX + 1, collapseY + 1, collapseHovered ? COLOR_TITLE : COLOR_TEXT, false);
+        graphics.drawString(font, "»", collapseX + 1, collapseY + 1, collapseHovered ? COLOR_TITLE : COLOR_TEXT, false);
         collapseBox = new Box(collapseX - 1, collapseY - 1, 12, 12);
 
         int linkY = y + PAD + HEADER + 4;
@@ -195,7 +196,6 @@ public final class LootInfoPanel {
         }
 
         graphics.drawString(font, detail, x + PAD, footerY + 2, detailHovered ? COLOR_TITLE : COLOR_TEXT, false);
-        graphics.drawString(font, "»", x + WIDTH - PAD - 6, footerY + 2, detailHovered ? COLOR_TITLE : COLOR_TEXT, false);
         detailBox = new Box(x + 2, footerY - 1, WIDTH - 4, FOOTER + 1);
 
         panelBox = new Box(x, y, WIDTH, contentHeight);
@@ -206,16 +206,16 @@ public final class LootInfoPanel {
         lines.add(new Line(Component.translatable("containerloottip.line.source",
                 Component.translatable(info.source().translationKey())), COLOR_TEXT));
 
-        if (level == DetailLevel.COMPACT) {
-            return lines;
-        }
-
-        Component kind = Component.translatable(info.kind().translationKey());
-
-        if (info.size() > 0) {
-            lines.add(new Line(Component.translatable("containerloottip.line.container_size", kind, info.size()), COLOR_TEXT));
+        if (info.kind() == ContainerKind.OTHER) {
+            lines.add(new Line(Component.translatable("containerloottip.line.container_unknown"), COLOR_TEXT));
         } else {
-            lines.add(new Line(Component.translatable("containerloottip.line.container", kind), COLOR_TEXT));
+            Component kind = Component.translatable(info.kind().translationKey());
+
+            if (info.size() > 0) {
+                lines.add(new Line(Component.translatable("containerloottip.line.container_size", kind, info.size()), COLOR_TEXT));
+            } else {
+                lines.add(new Line(Component.translatable("containerloottip.line.container", kind), COLOR_TEXT));
+            }
         }
 
         if (level != DetailLevel.DETAILED) {
@@ -246,8 +246,6 @@ public final class LootInfoPanel {
             if (info.decayTicks() > 0) {
                 lines.add(new Line(Component.translatable("containerloottip.line.decay", duration(info.decayTicks())), COLOR_TEXT));
             }
-
-            lines.add(new Line(Component.translatable("containerloottip.line.per_player"), COLOR_TEXT));
         }
 
         return lines;
