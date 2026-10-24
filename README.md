@@ -108,7 +108,7 @@ The companion mods are compiled against local jars placed in `.deps/<branch>/`, 
 - `jei-19.20.0.242.jar`
 - `emi-1.1.22.jar`
 
-These jars are only used for compilation and the development runtime; they are not bundled into the built mod. The development client loads JEI by default. Add `-Pwith_emi=true` to load EMI at runtime instead.
+These jars are only used for compilation and the development runtime; they are not bundled into the built mod. Download the files from each mod's release page, using the versions listed above. The development client loads JEI by default. Add `-Pwith_emi=true` to load EMI alongside it.
 
 ### NeoForge Maven mirror
 

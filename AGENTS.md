@@ -2,7 +2,7 @@
 
 ## 项目
 
-Container Loot Tip（工作名，mod id `containerloottip`）：在带战利品表的容器界面显示表名、来源和基础信息；表名是超链接，可通过 ALI 在 JEI/EMI 中精确打开对应战利品表页面。
+Container Loot Tip（mod id `containerloottip`）：在带战利品表的容器界面显示表名、来源和基础信息；表名是超链接，可通过 ALI 在 JEI/EMI 中精确打开对应战利品表页面。
 
 目标版本：Minecraft 1.20.1 Forge、1.21.1 NeoForge。
 可选依赖：Lootr（适配）、ALI + ACI（详情跳转）、JEI 或 EMI（查看器）。仅安装 REI 或无查看器时不提供跳转。
