@@ -12,7 +12,7 @@ Shows the source loot table and basic information in the GUI of containers that 
 ## Features
 
 - Shows a collapsible info panel on the left side of container screens that use loot tables.
-- Displays the table ID, the vanilla / Lootr source, container type and slot count. The detail level cycles between Compact, Standard and Detailed.
+- Displays the table ID, the vanilla / Lootr source, container type and slot count. The detail level cycles between Compact and Detailed.
 - The table ID is a hyperlink when ALI + ACI and JEI or EMI are installed. Clicking it opens the exact ALI page for that table.
 - Lootr containers additionally show opener counts, refresh and decay information when available.
 - The collapsed state and detail level are saved to the client config and apply globally.
