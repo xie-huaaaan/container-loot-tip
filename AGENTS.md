@@ -7,6 +7,8 @@ Container Loot Tip（工作名，mod id `containerloottip`）：在带战利品�
 目标版本：Minecraft 1.20.1 Forge、1.21.1 NeoForge。
 可选依赖：Lootr（适配）、ALI + ACI（详情跳转）、JEI 或 EMI（查看器）。仅安装 REI 或无查看器时不提供跳转。
 
+**所有联动都是软依赖**：不装 Lootr/ALI/ACI/JEI/EMI 时模组仍可加载，只是对应功能缺失。客户端或服务端单独安装也不能崩溃；服务端单独安装时，未安装本模组的玩家必须能正常进服。
+
 ## 分支模型
 
 - `main`：共享代码 `src/common`、文档、规范。不含可运行 Gradle 工程。
@@ -27,7 +29,9 @@ Container Loot Tip（工作名，mod id `containerloottip`）：在带战利品�
 - `src/common` 必须同时通过 1.20.1 与 1.21.1 编译。不得 import 加载器/版本特有 API，也不得直接 import Lootr/ALI/JEI/EMI/ACI 等可选类。
 - 可选依赖必须类加载安全：缺失时不得触发 `NoClassDefFoundError`。先判断 mod 是否加载，再调用隔离的兼容类。
 - 服务端权威：表名、种子、开启状态等由服务端在打开菜单时捕获后下发；客户端不得自行推断原版容器表。
-- 原版容器只在首次打开时能捕获（表随后被消耗）；Lootr 始终可捕获。服务器必须安装本模组。
+- 原版容器只在首次打开时能捕获（表随后被消耗）；Lootr 始终可捕获。
+- 网络必须是“可选加入”：`displayTest` 使用 `IGNORE_ALL_VERSION`；发包前确认目标客户端存在本模组的通道，绝不向无模组客户端发送自定义 payload。仅客户端安装时静默不显示，仅服务端安装时对未装模组的玩家无任何影响。
+- 模组元数据中的 Lootr/ALI/ACI/JEI/EMI 依赖必须标记为 optional；禁止把它们写成 required。
 - 仅 JEI/EMI 支持 ALI 精确跳转。REI-only 或无查看器时，表名降级为普通文本。
 - 用户可见文本进 lang（`en_us` + `zh_cn`）；代码标识符用英文。
 - 类/模块用 Javadoc 说明用途；行内注释只解释“为什么”，不写显而易见的“做了什么”。
@@ -41,6 +45,7 @@ Container Loot Tip（工作名，mod id `containerloottip`）：在带战利品�
 - 每次改动至少跑对应分支的 `build`。
 - UI 改动必须实际进游戏验证，不能只凭编译通过。
 - 关键手动检查：原版首次打开/重开、Lootr 箱子/木桶/潜影盒、三档详细度、收起持久化、JEI/EMI 跳转、ALI 缺失、仅 REI。
+- 安装组合检查：仅客户端、仅服务端（原版客户端进服）、双端、双端且缺少各个可选 mod。服务端只装本模组时绝不能因发包导致客户端断线。
 
 ## 协作
 
