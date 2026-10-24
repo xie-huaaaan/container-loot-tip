@@ -18,7 +18,7 @@ import java.nio.file.StandardCopyOption;
  * the requested behaviour: collapsing the panel once keeps it collapsed for every container.</p>
  */
 public final class ClientSettings {
-    private static final String FILE_NAME = "containerloottip-client.json";
+    private static final String FILE_NAME = "container_loot_tip-client.json";
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static ClientSettings instance;
 

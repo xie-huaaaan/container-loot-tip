@@ -5,11 +5,11 @@ package dev.containerloottip.info;
  * the server derives it from the menu provider so the client never has to inspect block entities.
  */
 public enum ContainerKind {
-    CHEST("containerloottip.kind.chest"),
-    BARREL("containerloottip.kind.barrel"),
-    SHULKER("containerloottip.kind.shulker"),
-    MINECART("containerloottip.kind.minecart"),
-    OTHER("containerloottip.kind.other");
+    CHEST("container_loot_tip.kind.chest"),
+    BARREL("container_loot_tip.kind.barrel"),
+    SHULKER("container_loot_tip.kind.shulker"),
+    MINECART("container_loot_tip.kind.minecart"),
+    OTHER("container_loot_tip.kind.other");
 
     private final String translationKey;
 

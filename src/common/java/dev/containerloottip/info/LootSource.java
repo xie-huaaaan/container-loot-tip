@@ -2,8 +2,8 @@ package dev.containerloottip.info;
 
 /** Where the container's loot table was captured from. */
 public enum LootSource {
-    VANILLA("containerloottip.source.vanilla"),
-    LOOTR("containerloottip.source.lootr");
+    VANILLA("container_loot_tip.source.vanilla"),
+    LOOTR("container_loot_tip.source.lootr");
 
     private final String translationKey;
 
