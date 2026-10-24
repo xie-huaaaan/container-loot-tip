@@ -43,24 +43,40 @@
 - `1.20.1-forge`：Forge 1.20.1 工程。
 - `1.21.1-neoforge`：NeoForge 1.21.1 工程。
 
-## 构建
+## 构建与开发客户端
 
-本机已安装的 Zulu JDK 即可，不需要把 JDK 复制到工作区。
+所有命令都在项目根目录执行。Gradle 缓存放在 `.gradle-home`，可以复用已经下载的 Minecraft 和依赖。
 
-1.20.1 Forge：
+1.20.1 Forge（Git Bash）：
 
 ```bash
 git checkout 1.20.1-forge
-JAVA_HOME="C:/Program Files/Zulu/zulu-17" ./gradlew build
+JAVA_HOME="/c/Program Files/Zulu/zulu-17" GRADLE_USER_HOME="$PWD/.gradle-home" ./gradlew build
+JAVA_HOME="/c/Program Files/Zulu/zulu-17" GRADLE_USER_HOME="$PWD/.gradle-home" ./gradlew runClient
 ```
 
-1.21.1 NeoForge：
+1.21.1 NeoForge（PowerShell）：
 
-```bash
+```powershell
 git checkout 1.21.1-neoforge
-JAVA_HOME="C:/Program Files/Zulu/zulu-21" ./gradlew build
+$env:JAVA_HOME = "C:\Program Files\Zulu\zulu-21"
+$env:GRADLE_USER_HOME = "$PWD\.gradle-home"
+.\gradlew.bat build
+.\gradlew.bat runClient
 ```
 
-构建产物在 `build/libs/`。开发环境启动客户端用 `./gradlew runClient`，但游戏内实测由用户执行。
+### 开发客户端
+
+`runClient` 启动的是开发环境客户端：
+
+- 游戏目录是项目下的 `run/`，不是官方启动器的 `.minecraft`。
+- 本项目自动加载；`build.gradle` 里的 Lootr、ALI、ACI、JEI 等运行时依赖也会一起加载。
+- 第一次启动会下载资源文件并生成 `run/`，之后启动会快很多。
+- 打开游戏窗口测试，关闭窗口即结束 Gradle 任务。
+- 日志在 `run/logs/latest.log`，崩溃报告在 `run/crash-reports/`。
+- 使用离线开发账号，不适合连接需要正版验证的线上服务器或 Realms。
+- 修改 Java 代码后需要重新构建并重启客户端；Gradle 会自动编译，但不会热替换已加载的类。
+
+`runClient` 只用于开发调试。最终发布前还应把 `build/libs/` 里的 jar 放进普通启动器的 `mods/`，按正常玩家环境再测一次。
 
 NeoForge 构建使用 `https://neoforged.forgecdn.net/` 镜像，因为部分网络无法访问官方 `maven.neoforged.net`。
