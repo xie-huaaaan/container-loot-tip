@@ -1,0 +1,22 @@
+# Build output
+.gradle/
+build/
+out/
+run/
+logs/
+crash-reports/
+
+# Local toolchain / dependency caches
+.jdks/
+.gradle-home/
+.deps/
+
+# Reference checkouts and downloaded source jars
+refs/
+
+# IDE / OS
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
