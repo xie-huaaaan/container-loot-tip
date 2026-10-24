@@ -4,4 +4,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'containerloottip-1.21.1-neoforge'
+rootProject.name = 'container-loot-tip-1.21.1-neoforge'
