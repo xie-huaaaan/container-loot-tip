@@ -45,4 +45,22 @@
 
 ## 构建
 
-构建说明会在工程骨架完成后补充。
+本机已安装的 Zulu JDK 即可，不需要把 JDK 复制到工作区。
+
+1.20.1 Forge：
+
+```bash
+git checkout 1.20.1-forge
+JAVA_HOME="C:/Program Files/Zulu/zulu-17" ./gradlew build
+```
+
+1.21.1 NeoForge：
+
+```bash
+git checkout 1.21.1-neoforge
+JAVA_HOME="C:/Program Files/Zulu/zulu-21" ./gradlew build
+```
+
+构建产物在 `build/libs/`。开发环境启动客户端用 `./gradlew runClient`，但游戏内实测由用户执行。
+
+NeoForge 构建使用 `https://neoforged.forgecdn.net/` 镜像，因为部分网络无法访问官方 `maven.neoforged.net`。
