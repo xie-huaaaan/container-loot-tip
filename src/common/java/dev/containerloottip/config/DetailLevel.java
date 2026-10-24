@@ -3,7 +3,6 @@ package dev.containerloottip.config;
 /** Amount of detail shown by the panel. The button cycles through the values in this order. */
 public enum DetailLevel {
     COMPACT("containerloottip.detail.compact"),
-    STANDARD("containerloottip.detail.standard"),
     DETAILED("containerloottip.detail.detailed");
 
     private final String translationKey;
@@ -28,6 +27,6 @@ public enum DetailLevel {
             }
         }
 
-        return STANDARD;
+        return COMPACT;
     }
 }
