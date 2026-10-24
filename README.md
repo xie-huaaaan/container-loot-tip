@@ -2,130 +2,77 @@
 
 English | [简体中文](README.zh-CN.md)
 
-Shows the source loot table and basic information in the GUI of containers that use loot tables. When Advanced Loot Info (ALI) and JEI or EMI are installed, the table name becomes a link to the matching ALI page.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1%20%7C%201.21.1-green.svg)](#) [![Loader](https://img.shields.io/badge/Loader-Forge%20%7C%20NeoForge-orange.svg)](#)
 
-## Supported versions
+Displays the source loot table and basic container info on the left side of container GUIs. When installed alongside **Advanced Loot Info (ALI)** and **JEI / EMI**, the loot table ID becomes a clickable link that opens the corresponding ALI page directly.
 
-- Minecraft 1.20.1 / Forge
-- Minecraft 1.21.1 / NeoForge
+![Preview](docs/assets/preview.png)
 
-## Features
+## ✨ Features
 
-- Shows a collapsible info panel on the left side of container screens that use loot tables.
-- Displays the table ID, the vanilla / Lootr source, container type and slot count. The detail level cycles between Compact and Detailed.
-- The table ID is a hyperlink when ALI + ACI and JEI or EMI are installed. Clicking it opens the exact ALI page for that table.
-- Lootr containers additionally show opener counts, refresh and decay information when available.
-- The collapsed state and detail level are saved to the client config and apply globally.
+- **Collapsible Info Panel**: Adds a **toggleable** panel to the left side of container screens that use loot tables.
+- **Detailed Metadata**: Displays the loot table ID, source (`Vanilla` / `Lootr`), container type, and slot count. Easily toggle between **Compact** and **Detailed** views.
+- **One-Click Lookup**: When ALI + ACI and JEI or EMI are present, clicking the loot table ID opens its exact loot table page in JEI/EMI.
+- **Lootr Integration**: Displays opener counts, refresh and decay timers for Lootr containers when available.
+- **Persistent Preferences**: Panel collapse state and detail level are saved globally in the client configuration.
 
-## Installation and optional dependencies
+## 📦 Installation & Compatibility
 
-Every integration is optional. The mod loads without any of the supported companion mods:
+- **Minecraft 1.20.1** — Forge
+- **Minecraft 1.21.1** — NeoForge
 
-- Without Lootr: vanilla containers still show their table, but a vanilla loot table is only visible when the container is opened for the first time.
-- Without ALI / ACI or JEI / EMI: the table ID and basic information are still shown, but the ID cannot be clicked.
-- Client only: the mod loads normally, but no server data is available, so no panel is shown. Nothing crashes.
-- Server only: the mod never sends a custom payload to clients that do not have the mod, so vanilla clients can join normally.
+### Environment Support
 
-## Limitations
-
-- Vanilla containers consume their loot table when opened for the first time. The mod captures and sends the table at that moment, so it can only be shown on the first open. Containers opened before the mod was installed cannot be recovered.
-- Table data comes from the server. Client-only installations cannot show the panel; this is expected.
-- Containers without a GUI are not supported, and the mod does not try to infer loot tables for non-vanilla / non-Lootr containers.
-- REI navigation is not planned.
-
-## Optional dependencies
-
-| Mod | Purpose |
+| Environment | Behavior |
 | --- | --- |
-| Lootr | Keeps per-player loot and provides opener, refresh and decay information |
-| Advanced Loot Info (ALI) + Advanced Core Info (ACI) | Provides the loot table detail pages |
-| JEI or EMI | Displays ALI pages; either one is sufficient |
+| **Client + Server** | **Recommended**. Full functionality enabled. |
+| **Server-Only** | Compatible. Custom payloads are only sent to clients with the mod installed; vanilla clients can join normally. |
+| **Client-Only** | Inert. The mod loads safely without crashing, but the panel will not appear since loot table data must be sent by the server. |
 
-## Branches
+### Optional Dependencies
 
-- `main`: shared code (`src/common`), documentation and conventions. Does not contain a runnable Gradle project.
-- `1.20.1-forge`: Minecraft 1.20.1 / Forge project.
-- `1.21.1-neoforge`: Minecraft 1.21.1 / NeoForge project.
+All integrations are completely optional. The mod runs standalone and enables features dynamically based on installed mods:
 
-## Building
+| Mod | Purpose | Behavior When Missing |
+| --- | --- | --- |
+| **Lootr** | Preserves per-player loot and provides opener, refresh, and decay info | Vanilla containers still work, but tables are only visible on first open |
+| **ALI + ACI** | Provides loot table detail pages (*Advanced Loot Info* & *Advanced Core Info*) | Table ID and basic info are shown, but the ID is not clickable |
+| **JEI or EMI** | Displays ALI pages (either one works; REI is not planned) | Same as above; table ID is not clickable |
 
-### Requirements
+## ⚠️ Known Limitations
 
-- JDK 17 for the 1.20.1 branch.
-- JDK 21 for the 1.21.1 branch.
-- Use the Gradle Wrapper included in the repository; no separate Gradle installation is needed.
-- Keep JDKs and the Gradle cache outside the repository. Point `JAVA_HOME` at your JDK or let Gradle toolchain detection find it. Do not commit machine-specific paths.
+- **Vanilla Container Consumption**: Vanilla Minecraft consumes and clears a container's loot table tag the moment it is opened for the first time. Because this mod captures the table on the server during that initial open event, **vanilla containers only show the panel the very first time they are opened** (containers opened prior to installing the mod cannot be recovered). Use **Lootr** if you want persistent loot table info.
+- **Supported Containers**: Containers without a GUI are not supported, and the mod does not attempt to infer loot tables for custom containers outside of Vanilla and Lootr.
 
-### Commands
+## 🛠️ Building & Development
 
-Linux / macOS:
+### Branches
+
+- `main`: Shared code (`src/common`), documentation, and conventions (not a runnable Gradle project).
+- `1.20.1-forge`: Minecraft 1.20.1 Forge project (requires **JDK 17**).
+- `1.21.1-neoforge`: Minecraft 1.21.1 NeoForge project (requires **JDK 21**).
+
+### Local Development Dependencies
+
+Companion mods are compiled against local jars placed in `.deps/<branch>/` (git-ignored). Download the required versions matching the properties in that branch's `gradle.properties`:
+
+- `lootr`, `ali`, `aci`, `jei`, `emi` (used strictly for compilation and dev runtime; never bundled).
+
+### Gradle Commands
+
+Check out the target branch (`1.20.1-forge` or `1.21.1-neoforge`) and run:
 
 ```bash
-git checkout 1.20.1-forge
-export JAVA_HOME=/path/to/jdk-17
+# Build the mod (artifacts output to build/libs/)
 ./gradlew build
-```
 
-```bash
-git checkout 1.21.1-neoforge
-export JAVA_HOME=/path/to/jdk-21
-./gradlew build
-```
-
-Windows PowerShell:
-
-```powershell
-git checkout 1.20.1-forge
-$env:JAVA_HOME = "C:\path\to\jdk-17"
-.\gradlew.bat build
-```
-
-```powershell
-git checkout 1.21.1-neoforge
-$env:JAVA_HOME = "C:\path\to\jdk-21"
-.\gradlew.bat build
-```
-
-Build artifacts are written to `build/libs/`.
-
-### Development dependencies
-
-The companion mods are compiled against local jars placed in `.deps/<branch>/`, which is ignored by git. File names must match the version properties in `gradle.properties`:
-
-1.20.1:
-
-- `lootr-0.7.35.94.jar`
-- `ali-2.5.0.jar`
-- `aci-1.5.0.jar`
-- `jei-15.20.0.105.jar`
-- `emi-1.1.18.jar`
-
-1.21.1:
-
-- `lootr-1.11.38.127.jar`
-- `ali-2.5.0.jar`
-- `aci-1.5.0.jar`
-- `jei-19.20.0.242.jar`
-- `emi-1.1.22.jar`
-
-These jars are only used for compilation and the development runtime; they are not bundled into the built mod. Download the files from each mod's release page, using the versions listed above. The development client loads JEI by default. Add `-Pwith_emi=true` to load EMI alongside it.
-
-### NeoForge Maven mirror
-
-If `maven.neoforged.net` is unreachable on your network, use the mirror for a build:
-
-```bash
-./gradlew build -Pneoforge_mirror=https://neoforged.forgecdn.net
-```
-
-### Development client
-
-```bash
+# Launch dev client (loads JEI by default; append -Pwith_emi=true to also load EMI)
 ./gradlew runClient
+
+# Build using the NeoForge mirror if maven.neoforged.net is unreachable
+./gradlew build -Pneoforge_mirror=[https://neoforged.forgecdn.net](https://neoforged.forgecdn.net)
 ```
 
-The development client uses the project-local `run/` directory instead of the launcher's `.minecraft`. Logs are written to `run/logs/latest.log` and crash reports to `run/crash-reports/`. `runClient` uses an offline development account and is not suitable for servers that require authentication. Before a release, load the jar from `build/libs/` in a normal launcher and test it once more.
+## 📄 License
 
-## License
-
-MIT. See [LICENSE](LICENSE).
+Licensed under the [MIT License](https://www.google.com/search?q=LICENSE).

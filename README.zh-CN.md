@@ -1,131 +1,78 @@
-# Container Loot Tip
+# 战利品箱信息提示 (Container Loot Tip)
 
 [English](README.md) | 简体中文
 
-在带战利品表的容器界面显示战利品表来源与基础信息。与 Advanced Loot Info (ALI) 及 JEI / EMI 同时安装时，可跳转到对应战利品表页面。
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1%20%7C%201.21.1-green.svg)](#) [![Loader](https://img.shields.io/badge/Loader-Forge%20%7C%20NeoForge-orange.svg)](#)
 
-## 支持版本
+在带战利品表（Loot Table）的容器界面左侧显示战利品表来源与基础信息。配合 **Advanced Loot Info (ALI)** 与 **JEI / EMI** 使用时，可直接点击表名跳转到对应的战利品表详情页。
 
-- Minecraft 1.20.1 / Forge
-- Minecraft 1.21.1 / NeoForge
+![预览图片](docs/assets/preview.zh-CN.png)
 
-## 功能
+## ✨ 功能特性
 
-- 打开带战利品表的容器时，在 GUI 左侧显示可收起的信息面板。
-- 显示表名、原版 / Lootr 来源、容器类型与格数；详细度可在简洁、详细之间循环切换。
-- 表名为超链接：安装 ALI + ACI 以及 JEI 或 EMI 时，点击可精确打开该表的 ALI 页面。
-- Lootr 容器额外显示开启人数、刷新 / 衰减等信息（可用时）。
-- 面板收起状态和详细度写入客户端配置，全局生效。
+- **侧边信息面板**：打开带战利品表的容器时，在 GUI 左侧显示**可折叠**的信息面板。
+- **多维信息展示**：显示战利品表 ID、来源（原版 / Lootr）、容器类型与槽位数；支持在**简洁**与**详细**模式间切换。
+- **一键跳转查询**：安装 ALI + ACI 及 JEI / EMI 时，战利品表 ID 会变为超链接，点击即可精确打开该表的 ALI 战利品详情页。
+- **Lootr 深度支持**：查看 Lootr 容器时，额外显示开启人数、刷新与衰减倒计时等信息。
+- **全局状态记忆**：面板的折叠状态与详细度会自动保存至客户端配置文件，全局生效。
 
-## 安装与软依赖
+## 📦 支持版本与安装
 
-所有联动都是可选的，模组可以在缺少任一联动 mod 的情况下加载：
+- **Minecraft 1.20.1** — Forge
+- **Minecraft 1.21.1** — NeoForge
 
-- 不装 Lootr：原版容器信息仍然工作，但原版战利品表只在容器首次打开时可见。
-- 不装 ALI / ACI 或 JEI / EMI：仍显示表名和基础信息，只是表名不能点击跳转。
-- 仅客户端安装：模组正常加载，但没有服务端下发的数据，因此不显示面板；不会崩溃。
-- 仅服务端安装：不会向未安装本模组的客户端发送任何自定义数据包，这些玩家可以正常进服。
+### 端侧要求
 
-## 限制
-
-- 原版容器在首次打开时就会消耗战利品表。本模组在打开瞬间于服务端捕获并下发，因此只保证首次打开可见；安装本模组之前已经打开过的原版容器无法追溯。
-- 表名与状态来自服务端；仅客户端安装时无法显示，这是预期的功能缺失。
-- 暂不支持没有 GUI 的容器，也不主动推断非原版 / Lootr 容器的战利品表来源。
-- 不计划支持 REI 跳转。
-
-## 可选依赖
-
-| Mod | 作用 |
+| 安装环境 | 运行表现 |
 | --- | --- |
-| Lootr | 保留每位玩家的独立战利品，并提供开启人数、刷新 / 衰减等信息 |
-| Advanced Loot Info (ALI) + Advanced Core Info (ACI) | 提供战利品表详情页 |
-| JEI 或 EMI | 显示 ALI 页面；两者任选其一 |
+| **客户端 + 服务端** | **推荐**。完整支持所有面板显示与跳转功能。 |
+| **仅服务端** | 兼容。服务端不会向未安装本模组的客户端发送自定义数据包，原版客户端可正常进服。 |
+| **仅客户端** | 不生效。模组可正常加载不崩溃，但因缺少服务端下发的战利品表数据，不会显示面板。 |
 
-## 分支
+### 软依赖与联动（全部可选）
 
-- `main`：共享代码（`src/common`）、文档与规范，不包含可运行的 Gradle 工程。
-- `1.20.1-forge`：Minecraft 1.20.1 / Forge 工程。
-- `1.21.1-neoforge`：Minecraft 1.21.1 / NeoForge 工程。
+本模组无需任何前置即可独立运行，安装以下模组可解锁完整体验：
 
-## 构建
+| 联动模组 | 作用 | 未安装时的表现 |
+| --- | --- | --- |
+| **Lootr** | 保留玩家独立战利品，提供开启人数、刷新与衰减信息 | 仅支持原版容器（受限于原版机制，仅首次打开可见） |
+| **ALI + ACI** | 提供战利品表详情页数据（Advanced Loot / Core Info） | 正常显示面板与表名，但表名无法点击跳转 |
+| **JEI 或 EMI** | 渲染并展示 ALI 页面（二选一即可，不计划支持 REI） | 同上，表名无法点击跳转 |
 
-### 环境
+## ⚠️ 注意事项与限制
 
-- 1.20.1 分支需要 JDK 17。
-- 1.21.1 分支需要 JDK 21。
-- 使用仓库自带的 Gradle Wrapper，不需要额外安装 Gradle。
-- JDK 和 Gradle 缓存放在仓库之外。请通过 `JAVA_HOME` 或 Gradle 的工具链检测使用本机 JDK，不要把本机路径提交到仓库。
+- **原版容器的一次性机制**：原版容器在首次打开时即会生成物品并清除自身的战利品表标签。本模组通过在打开瞬间于服务端捕获并下发数据来实现显示，因此**原版容器仅在首次被打开时能显示面板**（安装本模组前已被打开过的原版容器无法追溯）。若需持久查看，建议配合 **Lootr** 使用。
+- **容器范围**：暂不支持无 GUI 的容器，也不会对非原版 / 非 Lootr 的第三方自定义容器推断战利品表。
 
-### 命令
+## 🛠️ 构建与开发
 
-Linux / macOS：
+### 分支结构
+
+- `main`：跨版本共享代码（`src/common`）、文档与规范（不包含可运行的 Gradle 工程）。
+- `1.20.1-forge`：Minecraft 1.20.1 Forge 工程（需 **JDK 17**）。
+- `1.21.1-neoforge`：Minecraft 1.21.1 NeoForge 工程（需 **JDK 21**）。
+
+### 本地开发依赖
+
+联动模组通过本地 jar 进行编译与开发调试。请在对应分支下创建 `.deps/<branch>/` 目录（已被 Git 忽略），并根据该分支 `gradle.properties` 中声明的版本号放入以下模组的构件：
+
+- `lootr`、`ali`、`aci`、`jei`、`emi`（仅用于编译与开发环境，不会打包进构建产物中）。
+
+### 常用 Gradle 命令
+
+检出目标版本分支（如 `git checkout 1.20.1-forge` 或 `1.21.1-neoforge`）后执行：
 
 ```bash
-git checkout 1.20.1-forge
-export JAVA_HOME=/path/to/jdk-17
+# 构建模组（产物位于 build/libs/）
 ./gradlew build
-```
 
-```bash
-git checkout 1.21.1-neoforge
-export JAVA_HOME=/path/to/jdk-21
-./gradlew build
-```
-
-Windows PowerShell：
-
-```powershell
-git checkout 1.20.1-forge
-$env:JAVA_HOME = "C:\path\to\jdk-17"
-.\gradlew.bat build
-```
-
-```powershell
-git checkout 1.21.1-neoforge
-$env:JAVA_HOME = "C:\path\to\jdk-21"
-.\gradlew.bat build
-```
-
-构建产物位于 `build/libs/`。
-
-### 开发依赖
-
-联动的几个 mod 通过本地 jar 编译，jar 放在仓库内、但被 git 忽略的 `.deps/<branch>/` 目录中。文件名需要与 `gradle.properties` 中的版本属性一致：
-
-1.20.1：
-
-- `lootr-0.7.35.94.jar`
-- `ali-2.5.0.jar`
-- `aci-1.5.0.jar`
-- `jei-15.20.0.105.jar`
-- `emi-1.1.18.jar`
-
-1.21.1：
-
-- `lootr-1.11.38.127.jar`
-- `ali-2.5.0.jar`
-- `aci-1.5.0.jar`
-- `jei-19.20.0.242.jar`
-- `emi-1.1.22.jar`
-
-这些 jar 只用于编译和开发环境运行；构建出的模组不会打包它们。请从各 mod 的发布页面下载对应版本的文件。默认开发客户端加载 JEI；额外加 `-Pwith_emi=true` 会同时加载 EMI。
-
-### NeoForge Maven 镜像
-
-如果所在网络无法访问 `maven.neoforged.net`，可以临时使用镜像：
-
-```bash
-./gradlew build -Pneoforge_mirror=https://neoforged.forgecdn.net
-```
-
-### 开发客户端
-
-```bash
+# 启动开发客户端（默认加载 JEI，添加 -Pwith_emi=true 可同时加载 EMI）
 ./gradlew runClient
+
+# 若网络无法直连 maven.neoforged.net，可指定镜像构建
+./gradlew build -Pneoforge_mirror=[https://neoforged.forgecdn.net](https://neoforged.forgecdn.net)
 ```
 
-开发客户端使用项目下的 `run/` 作为游戏目录，而不是官方启动器的 `.minecraft`。日志位于 `run/logs/latest.log`，崩溃报告位于 `run/crash-reports/`。`runClient` 使用离线开发账号，不适合连接需要正版验证的服务器。发布前应使用普通启动器加载 `build/libs/` 中的 jar 再验证一次。
+## 📄 许可证
 
-## 许可证
-
-MIT，见 [LICENSE](LICENSE)。
+本项目基于 [MIT](https://www.google.com/search?q=LICENSE) 许可证开源。
