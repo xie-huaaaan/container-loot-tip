@@ -6,9 +6,7 @@ run/
 logs/
 crash-reports/
 
-# Local toolchain / dependency caches
-.jdks/
-.gradle-home/
+# Local development dependencies
 .deps/
 
 # Reference checkouts and downloaded source jars

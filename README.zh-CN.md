@@ -125,3 +125,7 @@ $env:JAVA_HOME = "C:\path\to\jdk-21"
 ```
 
 开发客户端使用项目下的 `run/` 作为游戏目录，而不是官方启动器的 `.minecraft`。日志位于 `run/logs/latest.log`，崩溃报告位于 `run/crash-reports/`。`runClient` 使用离线开发账号，不适合连接需要正版验证的服务器。发布前应使用普通启动器加载 `build/libs/` 中的 jar 再验证一次。
+
+## 许可证
+
+MIT，见 [LICENSE](LICENSE)。
