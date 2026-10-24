@@ -108,7 +108,7 @@ $env:JAVA_HOME = "C:\path\to\jdk-21"
 - `jei-19.20.0.242.jar`
 - `emi-1.1.22.jar`
 
-这些 jar 只用于编译和开发环境运行；构建出的模组不会打包它们。默认开发客户端加载 JEI，EMI 需要额外加 `-Pwith_emi=true` 才会进入运行时。
+这些 jar 只用于编译和开发环境运行；构建出的模组不会打包它们。请从各 mod 的发布页面下载对应版本的文件。默认开发客户端加载 JEI；额外加 `-Pwith_emi=true` 会同时加载 EMI。
 
 ### NeoForge Maven 镜像
 
