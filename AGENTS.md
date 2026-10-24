@@ -21,7 +21,7 @@ Container Loot Tip（工作名，mod id `containerloottip`）：在带战利品�
 - `src/common/java`、`src/common/resources`：跨版本共享。
 - `src/main/java`、`src/main/resources`：版本/加载器专属。
 - `refs/`：Lootr、ALI、查看器参考源码（ignored）。
-- `.jdks/`、`.gradle-home/`、`.deps/`：工作区内的 JDK、Gradle 缓存、依赖 jar（ignored）。
+- `.deps/`：本地开发依赖 jar（ignored），布局见 `README.md`。
 - `run/`、`build/`、日志：ignored。
 
 ## 硬性约定
@@ -34,21 +34,22 @@ Container Loot Tip（工作名，mod id `containerloottip`）：在带战利品�
 - 模组元数据中的 Lootr/ALI/ACI/JEI/EMI 依赖必须标记为 optional；禁止把它们写成 required。
 - 仅 JEI/EMI 支持 ALI 精确跳转。REI-only 或无查看器时，表名降级为普通文本。
 - 用户可见文本进 lang（`en_us` + `zh_cn`）；代码标识符用英文。
-- 类/模块用 Javadoc 说明用途；行内注释只解释“为什么”，不写显而易见的“做了什么”。
-- v1 不做：开启前预览、非原版/Lootr 容器扩展、REI 跳转。
-- 修 bug 后在 `LESSONS.md` 追加 1-3 行经验（现象 → 根因 → 结论）。上下文压缩后先读它。
+- 公开文档保持英文与简体中文同步：`README.md` 为英文，`README.zh-CN.md` 为简体中文。
+- 类/模块用 Javadoc 说明用途；其余注释只解释“为什么”，只有在功能不明显时才说明“做了什么”。
+- 目前不做：开启前预览、非原版/Lootr 容器扩展、REI 跳转。
+- 修 bug 后在 `LESSONS.md` 追加可复用经验教训（如果有）。上下文压缩后先读它。
 - 不提交 `refs/`、依赖 jar、`run/`、`build/`、IDE 文件。
 
 ## 构建与测试
 
-- 本机 JDK 已安装在 `C:\Program Files\Zulu`（zulu-17 / zulu-21 / zulu-25），直接使用，不在工作区复制 JDK。
-- 使用项目级 Gradle 缓存；命令见 `README.md`。
-- 每次改动至少跑对应分支的 `build`。
-- 游戏内实测由用户执行：完成构建后列出待测项，等待用户提供截图或描述，不启动客户端做 UI 自动化。
+- 1.20.1 分支使用 JDK 17，1.21.1 分支使用 JDK 21；Gradle 缓存放在仓库之外，不在仓库内保存 JDK 或 Gradle 用户目录。
+- 不要在提交的配置或文档中写入本机路径；通过 `JAVA_HOME` 或 Gradle 工具链检测选择 JDK。
+- 每次改动至少跑对应分支的 `build`，命令见 `README.md`。
+- 游戏内实测由维护者执行：完成构建后列出待测项，等待维护者提供截图或描述，不启动客户端做 UI 自动化。
 - 关键手动检查：原版首次打开/重开、Lootr 箱子/木桶/潜影盒、三档详细度、收起持久化、JEI/EMI 跳转、ALI 缺失、仅 REI。
 - 安装组合检查：仅客户端、仅服务端（原版客户端进服）、双端、双端且缺少各个可选 mod。服务端只装本模组时绝不能因发包导致客户端断线。
+- 发布前用普通启动器加载 `build/libs/` 中的 jar，按正常玩家环境复测。
 
 ## 协作
 
-- 用户没有 Java 开发经验：解释重大设计和风险，不要只贴代码。
 - 遇到需要人类决策或必须人工进游戏测试的问题，直接问，不硬猜。
