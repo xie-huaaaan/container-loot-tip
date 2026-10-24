@@ -125,3 +125,7 @@ If `maven.neoforged.net` is unreachable on your network, use the mirror for a bu
 ```
 
 The development client uses the project-local `run/` directory instead of the launcher's `.minecraft`. Logs are written to `run/logs/latest.log` and crash reports to `run/crash-reports/`. `runClient` uses an offline development account and is not suitable for servers that require authentication. Before a release, load the jar from `build/libs/` in a normal launcher and test it once more.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
