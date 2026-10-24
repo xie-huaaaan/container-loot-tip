@@ -1,11 +1,11 @@
-package dev.container_loot_tip.client;
+package dev.containerloottip.client;
 
-import dev.container_loot_tip.client.link.TableOpeners;
-import dev.container_loot_tip.config.ClientSettings;
-import dev.container_loot_tip.config.DetailLevel;
-import dev.container_loot_tip.info.ContainerKind;
-import dev.container_loot_tip.info.ContainerLootInfo;
-import dev.container_loot_tip.info.LootSource;
+import dev.containerloottip.client.link.TableOpeners;
+import dev.containerloottip.config.ClientSettings;
+import dev.containerloottip.config.DetailLevel;
+import dev.containerloottip.info.ContainerKind;
+import dev.containerloottip.info.ContainerLootInfo;
+import dev.containerloottip.info.LootSource;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;

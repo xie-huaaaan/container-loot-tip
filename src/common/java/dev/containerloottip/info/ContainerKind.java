@@ -1,4 +1,4 @@
-package dev.container_loot_tip.info;
+package dev.containerloottip.info;
 
 /**
  * Coarse container classification shown in the panel. It is intentionally loader- and mod-agnostic:
