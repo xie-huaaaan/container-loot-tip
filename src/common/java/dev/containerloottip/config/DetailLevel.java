@@ -1,9 +1,9 @@
-package dev.containerloottip.config;
+package dev.container_loot_tip.config;
 
 /** Amount of detail shown by the panel. The button cycles through the values in this order. */
 public enum DetailLevel {
-    COMPACT("containerloottip.detail.compact"),
-    DETAILED("containerloottip.detail.detailed");
+    COMPACT("container_loot_tip.detail.compact"),
+    DETAILED("container_loot_tip.detail.detailed");
 
     private final String translationKey;
 

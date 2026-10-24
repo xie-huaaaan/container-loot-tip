@@ -1,11 +1,11 @@
-package dev.containerloottip.client;
+package dev.container_loot_tip.client;
 
-import dev.containerloottip.client.link.TableOpeners;
-import dev.containerloottip.config.ClientSettings;
-import dev.containerloottip.config.DetailLevel;
-import dev.containerloottip.info.ContainerKind;
-import dev.containerloottip.info.ContainerLootInfo;
-import dev.containerloottip.info.LootSource;
+import dev.container_loot_tip.client.link.TableOpeners;
+import dev.container_loot_tip.config.ClientSettings;
+import dev.container_loot_tip.config.DetailLevel;
+import dev.container_loot_tip.info.ContainerKind;
+import dev.container_loot_tip.info.ContainerLootInfo;
+import dev.container_loot_tip.info.LootSource;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -94,13 +94,13 @@ public final class LootInfoPanel {
 
         if (detailBox != null && detailBox.contains(relativeX, relativeY)) {
             settings.cycleDetailLevel();
-            message("containerloottip.detail.changed", Component.translatable(settings.detailLevel().translationKey()));
+            message("container_loot_tip.detail.changed", Component.translatable(settings.detailLevel().translationKey()));
             return true;
         }
 
         if (linkBox != null && linkBox.contains(relativeX, relativeY)) {
             if (!TableOpeners.open(info.tableId())) {
-                message("containerloottip.link.not_found");
+                message("container_loot_tip.link.not_found");
             }
 
             return true;
@@ -146,7 +146,7 @@ public final class LootInfoPanel {
         drawBackground(graphics, x, y, WIDTH, contentHeight);
         graphics.fill(x + PAD, y + PAD + HEADER + 1, x + WIDTH - PAD, y + PAD + HEADER + 2, COLOR_SEPARATOR);
 
-        graphics.drawString(font, Component.translatable("containerloottip.panel.title"), x + PAD, y + PAD, COLOR_TITLE, true);
+        graphics.drawString(font, Component.translatable("container_loot_tip.panel.title"), x + PAD, y + PAD, COLOR_TITLE, true);
 
         int collapseX = x + WIDTH - PAD - 9;
         int collapseY = y + PAD - 1;
@@ -189,7 +189,7 @@ public final class LootInfoPanel {
         graphics.fill(x + PAD, footerY - 3, x + WIDTH - PAD, footerY - 2, COLOR_SEPARATOR);
 
         boolean detailHovered = mouseX >= x + 2 && mouseX < x + WIDTH - 2 && mouseY >= footerY - 1 && mouseY < footerY + FOOTER;
-        Component detail = Component.translatable("containerloottip.detail.label", Component.translatable(settings.detailLevel().translationKey()));
+        Component detail = Component.translatable("container_loot_tip.detail.label", Component.translatable(settings.detailLevel().translationKey()));
 
         if (detailHovered) {
             graphics.fill(x + 2, footerY - 1, x + WIDTH - 2, footerY + FOOTER, COLOR_HOVER);
@@ -203,18 +203,18 @@ public final class LootInfoPanel {
 
     private static List<Line> buildLines(ContainerLootInfo info, DetailLevel level) {
         List<Line> lines = new ArrayList<>();
-        lines.add(new Line(Component.translatable("containerloottip.line.source",
+        lines.add(new Line(Component.translatable("container_loot_tip.line.source",
                 Component.translatable(info.source().translationKey())), COLOR_TEXT));
 
         if (info.kind() == ContainerKind.OTHER) {
-            lines.add(new Line(Component.translatable("containerloottip.line.container_unknown"), COLOR_TEXT));
+            lines.add(new Line(Component.translatable("container_loot_tip.line.container_unknown"), COLOR_TEXT));
         } else {
             Component kind = Component.translatable(info.kind().translationKey());
 
             if (info.size() > 0) {
-                lines.add(new Line(Component.translatable("containerloottip.line.container_size", kind, info.size()), COLOR_TEXT));
+                lines.add(new Line(Component.translatable("container_loot_tip.line.container_size", kind, info.size()), COLOR_TEXT));
             } else {
-                lines.add(new Line(Component.translatable("containerloottip.line.container", kind), COLOR_TEXT));
+                lines.add(new Line(Component.translatable("container_loot_tip.line.container", kind), COLOR_TEXT));
             }
         }
 
@@ -224,27 +224,27 @@ public final class LootInfoPanel {
 
         if (info.seed() != ContainerLootInfo.UNKNOWN_LONG) {
             Component seed = info.seed() == 0L
-                    ? Component.translatable("containerloottip.value.random")
+                    ? Component.translatable("container_loot_tip.value.random")
                     : Component.literal(Long.toString(info.seed()));
-            lines.add(new Line(Component.translatable("containerloottip.line.seed", seed), COLOR_TEXT));
+            lines.add(new Line(Component.translatable("container_loot_tip.line.seed", seed), COLOR_TEXT));
         }
 
         if (info.source() == LootSource.LOOTR) {
             Component opened = Component.translatable(info.openedBefore()
-                    ? "containerloottip.value.yes"
-                    : "containerloottip.value.no");
-            lines.add(new Line(Component.translatable("containerloottip.line.opened", opened), COLOR_TEXT));
+                    ? "container_loot_tip.value.yes"
+                    : "container_loot_tip.value.no");
+            lines.add(new Line(Component.translatable("container_loot_tip.line.opened", opened), COLOR_TEXT));
 
             if (info.openers() >= 0) {
-                lines.add(new Line(Component.translatable("containerloottip.line.openers", info.openers()), COLOR_TEXT));
+                lines.add(new Line(Component.translatable("container_loot_tip.line.openers", info.openers()), COLOR_TEXT));
             }
 
             if (info.refreshTicks() > 0) {
-                lines.add(new Line(Component.translatable("containerloottip.line.refresh", duration(info.refreshTicks())), COLOR_TEXT));
+                lines.add(new Line(Component.translatable("container_loot_tip.line.refresh", duration(info.refreshTicks())), COLOR_TEXT));
             }
 
             if (info.decayTicks() > 0) {
-                lines.add(new Line(Component.translatable("containerloottip.line.decay", duration(info.decayTicks())), COLOR_TEXT));
+                lines.add(new Line(Component.translatable("container_loot_tip.line.decay", duration(info.decayTicks())), COLOR_TEXT));
             }
         }
 
@@ -259,13 +259,13 @@ public final class LootInfoPanel {
             int remainder = seconds % 60;
 
             if (remainder == 0) {
-                return Component.translatable("containerloottip.time.minutes", minutes);
+                return Component.translatable("container_loot_tip.time.minutes", minutes);
             }
 
-            return Component.translatable("containerloottip.time.minutes_seconds", minutes, remainder);
+            return Component.translatable("container_loot_tip.time.minutes_seconds", minutes, remainder);
         }
 
-        return Component.translatable("containerloottip.time.seconds", seconds);
+        return Component.translatable("container_loot_tip.time.seconds", seconds);
     }
 
     private static int panelX(AbstractContainerScreen<?> screen, int width) {
