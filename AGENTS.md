@@ -34,6 +34,7 @@ Container Loot Tip（mod id `container_loot_tip`）：在带战利品表的容�
 - 模组元数据中的 Lootr/ALI/ACI/JEI/EMI 依赖必须标记为 optional；禁止把它们写成 required。
 - 仅 JEI/EMI 支持 ALI 精确跳转。REI-only 或无查看器时，表名降级为普通文本。
 - 用户可见文本进 lang（`en_us` + `zh_cn`）；代码标识符用英文。
+- 模组 ID 使用 `container_loot_tip`：加载器只接受小写字母、数字和下划线。发布文件名使用 kebab-case，由 `base.archivesName` 生成 `container-loot-tip-<mc>-<loader>-<version>.jar`。
 - 公开文档保持英文与简体中文同步：`README.md` 为英文，`README.zh-CN.md` 为简体中文。
 - 类/模块用 Javadoc 说明用途；其余注释只解释“为什么”，只有在功能不明显时才说明“做了什么”。
 - 目前不做：开启前预览、非原版/Lootr 容器扩展、REI 跳转。
