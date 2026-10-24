@@ -45,13 +45,19 @@ sourceSets {
 }
 
 repositories {
-    // ModDevGradle adds the official NeoForged Maven; it is unreachable on some networks.
-    // Clear those defaults and use the CDN mirror, which serves the same layout.
-    clear()
-    maven { url = 'https://libraries.minecraft.net/' }
-    maven { url = 'https://neoforged.forgecdn.net/releases' }
-    maven { url = 'https://neoforged.forgecdn.net/mojang-meta' }
-    mavenCentral()
+    // ModDevGradle adds the official NeoForged repositories. In restricted networks,
+    // pass -Pneoforge_mirror=https://neoforged.forgecdn.net to replace them with a mirror.
+    def neoforgeMirror = findProperty('neoforge_mirror')
+
+    if (neoforgeMirror != null) {
+        def baseUrl = neoforgeMirror.toString().replaceAll('/+$', '')
+        clear()
+        maven { url = 'https://libraries.minecraft.net/' }
+        maven { url = "${baseUrl}/releases" }
+        maven { url = "${baseUrl}/mojang-meta" }
+        mavenCentral()
+    }
+
     flatDir {
         dirs "${deps_dir}"
     }
