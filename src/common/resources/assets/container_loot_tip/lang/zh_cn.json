@@ -26,5 +26,8 @@
   "container_loot_tip.detail.compact": "简洁",
   "container_loot_tip.detail.detailed": "详细",
   "container_loot_tip.detail.changed": "详细度：%s",
+  "container_loot_tip.link.tooltip": "点击打开 ALI 页面；Shift 点击复制表 ID",
+  "container_loot_tip.link.tooltip.copy": "Shift 点击复制表 ID",
+  "container_loot_tip.link.copied": "已复制战利品表 ID",
   "container_loot_tip.link.not_found": "未找到该战利品表的 ALI 页面"
 }

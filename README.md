@@ -4,17 +4,19 @@ English | [简体中文](README.zh-CN.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1%20%7C%201.21.1-green.svg)](#) [![Loader](https://img.shields.io/badge/Loader-Forge%20%7C%20NeoForge-orange.svg)](#)
 
-Displays the source loot table and basic container info on the left side of container GUIs. When installed alongside **Advanced Loot Info (ALI)** and **JEI / EMI**, the loot table ID becomes a clickable link that opens the corresponding ALI page directly.
+Displays the source loot table and basic container info beside container GUIs, or as a link on the container title. When installed alongside **Advanced Loot Info (ALI)** and **JEI / EMI**, the loot table ID becomes a clickable link that opens the corresponding ALI page directly.
 
 ![Preview](docs/assets/preview.png)
 
 ## ✨ Features
 
-- **Collapsible Info Panel**: Adds a **toggleable** panel to the left side of container screens that use loot tables.
+- **Collapsible Info Panel**: Adds a **toggleable** panel to the left or right side of container screens that use loot tables.
 - **Detailed Metadata**: Displays the loot table ID, source (`Vanilla` / `Lootr`), container type, and slot count. Easily toggle between **Compact** and **Detailed** views.
-- **One-Click Lookup**: When ALI + ACI and JEI or EMI are present, clicking the loot table ID opens its exact loot table page in JEI/EMI.
+- **Title-Link Mode**: Can hide the panel entirely and turn the container title into the link instead.
+- **One-Click Lookup**: When ALI + ACI and JEI or EMI are present, clicking the loot table ID or title opens its exact loot table page in JEI/EMI.
+- **Copy Table ID**: Shift-click the loot table ID or title to copy it to the clipboard.
 - **Lootr Integration**: Displays opener counts, refresh and decay timers for Lootr containers when available.
-- **Persistent Preferences**: Panel collapse state and detail level are saved globally in the client configuration.
+- **Persistent Preferences**: Panel mode, side, collapse state and detail level are saved globally in the client configuration.
 
 ## 📦 Installation & Compatibility
 
@@ -38,6 +40,28 @@ All integrations are completely optional. The mod runs standalone and enables fe
 | **Lootr** | Preserves per-player loot and provides opener, refresh, and decay info | Vanilla containers still work, but tables are only visible on first open |
 | **ALI + ACI** | Provides loot table detail pages (*Advanced Loot Info* & *Advanced Core Info*) | Table ID and basic info are shown, but the ID is not clickable |
 | **JEI or EMI** | Displays ALI pages (either one works; REI is not planned) | Same as above; table ID is not clickable |
+
+## ⚙️ Configuration
+
+Client preferences live in `config/container_loot_tip-client.json`. There is no in-game settings screen, so edit the file and restart the client.
+
+```json
+{
+  "panelMode": "SIDEBAR",
+  "panelSide": "LEFT",
+  "collapsed": false,
+  "detailLevel": "COMPACT"
+}
+```
+
+| Key | Values | Default | Description |
+| --- | --- | --- | --- |
+| `panelMode` | `SIDEBAR`, `TITLE_LINK` | `SIDEBAR` | Full sidebar, or only a link on the container title |
+| `panelSide` | `LEFT`, `RIGHT` | `LEFT` | Sidebar side; ignored in `TITLE_LINK` mode |
+| `collapsed` | `true`, `false` | `false` | Sidebar collapse state; ignored in `TITLE_LINK` mode |
+| `detailLevel` | `COMPACT`, `DETAILED` | `COMPACT` | Amount of info shown in the sidebar |
+
+Values are case-insensitive. Missing or invalid values fall back to the defaults. In `TITLE_LINK` mode there is no sidebar; if ALI and JEI/EMI are not installed, the screen looks unchanged.
 
 ## ⚠️ Known Limitations
 

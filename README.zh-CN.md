@@ -4,17 +4,19 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1%20%7C%201.21.1-green.svg)](#) [![Loader](https://img.shields.io/badge/Loader-Forge%20%7C%20NeoForge-orange.svg)](#)
 
-在带战利品表（Loot Table）的容器界面左侧显示战利品表来源与基础信息。配合 **Advanced Loot Info (ALI)** 与 **JEI / EMI** 使用时，可直接点击表名跳转到对应的战利品表详情页。
+在带战利品表（Loot Table）的容器界面侧边显示战利品表来源与基础信息，也可以只把容器标题变成链接。配合 **Advanced Loot Info (ALI)** 与 **JEI / EMI** 使用时，可直接点击表名或标题跳转到对应的战利品表详情页。
 
 ![预览图片](docs/assets/preview.zh-CN.png)
 
 ## ✨ 功能特性
 
-- **侧边信息面板**：打开带战利品表的容器时，在 GUI 左侧显示**可折叠**的信息面板。
+- **侧边信息面板**：打开带战利品表的容器时，在 GUI 左侧或右侧显示**可折叠**的信息面板。
 - **多维信息展示**：显示战利品表 ID、来源（原版 / Lootr）、容器类型与槽位数；支持在**简洁**与**详细**模式间切换。
-- **一键跳转查询**：安装 ALI + ACI 及 JEI / EMI 时，战利品表 ID 会变为超链接，点击即可精确打开该表的 ALI 战利品详情页。
+- **标题链接模式**：可以完全隐藏侧栏，只把容器标题变成超链接。
+- **一键跳转查询**：安装 ALI + ACI 及 JEI / EMI 时，点击战利品表 ID 或容器标题即可精确打开该表的 ALI 战利品详情页。
+- **复制表 ID**：Shift 点击战利品表 ID 或容器标题即可复制到剪贴板。
 - **Lootr 深度支持**：查看 Lootr 容器时，额外显示开启人数、刷新与衰减倒计时等信息。
-- **全局状态记忆**：面板的折叠状态与详细度会自动保存至客户端配置文件，全局生效。
+- **全局状态记忆**：面板模式、侧边位置、折叠状态与详细度会自动保存至客户端配置文件，全局生效。
 
 ## 📦 支持版本与安装
 
@@ -38,6 +40,28 @@
 | **Lootr** | 保留玩家独立战利品，提供开启人数、刷新与衰减信息 | 仅支持原版容器（受限于原版机制，仅首次打开可见） |
 | **ALI + ACI** | 提供战利品表详情页数据（Advanced Loot / Core Info） | 正常显示面板与表名，但表名无法点击跳转 |
 | **JEI 或 EMI** | 渲染并展示 ALI 页面（二选一即可，不计划支持 REI） | 同上，表名无法点击跳转 |
+
+## ⚙️ 配置
+
+客户端选项保存在 `config/container_loot_tip-client.json`。游戏内不提供设置界面，修改文件后需要重启客户端。
+
+```json
+{
+  "panelMode": "SIDEBAR",
+  "panelSide": "LEFT",
+  "collapsed": false,
+  "detailLevel": "COMPACT"
+}
+```
+
+| 配置项 | 可选值 | 默认值 | 说明 |
+| --- | --- | --- | --- |
+| `panelMode` | `SIDEBAR`、`TITLE_LINK` | `SIDEBAR` | 完整侧栏，或仅把容器标题变成链接 |
+| `panelSide` | `LEFT`、`RIGHT` | `LEFT` | 侧栏所在位置；`TITLE_LINK` 模式下忽略 |
+| `collapsed` | `true`、`false` | `false` | 侧栏折叠状态；`TITLE_LINK` 模式下忽略 |
+| `detailLevel` | `COMPACT`、`DETAILED` | `COMPACT` | 侧栏显示的信息量 |
+
+配置值不区分大小写；缺失或无效值会回退到默认值。`TITLE_LINK` 模式不显示侧栏；未安装 ALI 和 JEI/EMI 时界面与原版完全一致。
 
 ## ⚠️ 注意事项与限制
 

@@ -3,12 +3,15 @@ package dev.containerloottip.client;
 import dev.containerloottip.client.link.TableOpeners;
 import dev.containerloottip.config.ClientSettings;
 import dev.containerloottip.config.DetailLevel;
+import dev.containerloottip.config.PanelMode;
+import dev.containerloottip.config.PanelSide;
 import dev.containerloottip.info.ContainerKind;
 import dev.containerloottip.info.ContainerLootInfo;
 import dev.containerloottip.info.LootSource;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
@@ -17,9 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Left-side loot information panel drawn on top of container screens.
+ * Loot information overlay drawn on top of container screens.
  *
- * <p>Coordinates are relative to the container GUI origin because both loaders fire the foreground
+ * <p>The sidebar can be placed on either side, or replaced by a link on the container title.
+ * Coordinates are relative to the container GUI origin because both loaders fire the foreground
  * screen event inside a pose already translated by the GUI position. Mouse events arrive in absolute
  * screen coordinates, so they are converted back before hit-testing.</p>
  */
@@ -47,6 +51,7 @@ public final class LootInfoPanel {
     private static Box detailBox;
     private static Box linkBox;
     private static Box tabBox;
+    private static Box titleLinkBox;
 
     private LootInfoPanel() {
     }
@@ -57,13 +62,16 @@ public final class LootInfoPanel {
         detailBox = null;
         linkBox = null;
         tabBox = null;
+        titleLinkBox = null;
 
         int relativeMouseX = mouseX - screen.getGuiLeft();
         int relativeMouseY = mouseY - screen.getGuiTop();
         ClientSettings settings = ClientSettings.get();
 
-        if (settings.isCollapsed()) {
-            renderTab(graphics, screen, relativeMouseX, relativeMouseY);
+        if (settings.panelMode() == PanelMode.TITLE_LINK) {
+            renderTitleLink(graphics, screen, relativeMouseX, relativeMouseY);
+        } else if (settings.isCollapsed()) {
+            renderTab(graphics, screen, relativeMouseX, relativeMouseY, settings.panelSide());
         } else {
             renderExpanded(graphics, screen, relativeMouseX, relativeMouseY, info, settings);
         }
@@ -77,6 +85,10 @@ public final class LootInfoPanel {
         double relativeX = mouseX - screen.getGuiLeft();
         double relativeY = mouseY - screen.getGuiTop();
         ClientSettings settings = ClientSettings.get();
+
+        if (settings.panelMode() == PanelMode.TITLE_LINK) {
+            return titleLinkClicked(relativeX, relativeY, info);
+        }
 
         if (settings.isCollapsed()) {
             if (tabBox != null && tabBox.contains(relativeX, relativeY)) {
@@ -99,8 +111,10 @@ public final class LootInfoPanel {
         }
 
         if (linkBox != null && linkBox.contains(relativeX, relativeY)) {
-            if (!TableOpeners.open(info.tableId())) {
-                message("container_loot_tip.link.not_found");
+            if (Screen.hasShiftDown()) {
+                copyTableId(info);
+            } else if (TableOpeners.canOpen()) {
+                openTable(info);
             }
 
             return true;
@@ -110,8 +124,9 @@ public final class LootInfoPanel {
         return panelBox != null && panelBox.contains(relativeX, relativeY);
     }
 
-    private static void renderTab(GuiGraphics graphics, AbstractContainerScreen<?> screen, int mouseX, int mouseY) {
-        int x = panelX(screen, TAB_WIDTH);
+    private static void renderTab(GuiGraphics graphics, AbstractContainerScreen<?> screen, int mouseX, int mouseY,
+                                  PanelSide side) {
+        int x = panelX(screen, TAB_WIDTH, side);
         int y = 4;
         boolean hovered = mouseX >= x && mouseX < x + TAB_WIDTH && mouseY >= y && mouseY < y + TAB_HEIGHT;
 
@@ -121,7 +136,8 @@ public final class LootInfoPanel {
             graphics.fill(x + 1, y + 1, x + TAB_WIDTH - 1, y + TAB_HEIGHT - 1, COLOR_HOVER);
         }
 
-        graphics.drawCenteredString(Minecraft.getInstance().font, "«", x + TAB_WIDTH / 2, y + TAB_HEIGHT / 2 - 4, COLOR_LINK);
+        String arrow = side == PanelSide.RIGHT ? "»" : "«";
+        graphics.drawCenteredString(Minecraft.getInstance().font, arrow, x + TAB_WIDTH / 2, y + TAB_HEIGHT / 2 - 4, COLOR_LINK);
         tabBox = new Box(x, y, TAB_WIDTH, TAB_HEIGHT);
         panelBox = tabBox;
     }
@@ -135,7 +151,7 @@ public final class LootInfoPanel {
 
         int tableHeight = tableLines.size() * LINE;
         int contentHeight = PAD + HEADER + 2 + tableHeight + 6 + lines.size() * LINE + 6 + FOOTER + PAD;
-        int x = panelX(screen, WIDTH);
+        int x = panelX(screen, WIDTH, settings.panelSide());
         int y = 4;
         int availableHeight = screen.height - screen.getGuiTop();
 
@@ -156,11 +172,12 @@ public final class LootInfoPanel {
             graphics.fill(collapseX - 1, collapseY - 1, collapseX + 10, collapseY + 10, COLOR_HOVER);
         }
 
-        graphics.drawString(font, "»", collapseX + 1, collapseY + 1, collapseHovered ? COLOR_TITLE : COLOR_TEXT, false);
+        String collapseArrow = settings.panelSide() == PanelSide.RIGHT ? "«" : "»";
+        graphics.drawString(font, collapseArrow, collapseX + 1, collapseY + 1, collapseHovered ? COLOR_TITLE : COLOR_TEXT, false);
         collapseBox = new Box(collapseX - 1, collapseY - 1, 12, 12);
 
         int linkY = y + PAD + HEADER + 4;
-        boolean linkHovered = canLink && mouseX >= x + 2 && mouseX < x + WIDTH - 2 && mouseY >= linkY - 1 && mouseY < linkY + tableHeight + 1;
+        boolean linkHovered = mouseX >= x + 2 && mouseX < x + WIDTH - 2 && mouseY >= linkY - 1 && mouseY < linkY + tableHeight + 1;
         int linkColor = !canLink ? COLOR_PLAIN : (linkHovered ? COLOR_LINK_HOVER : COLOR_LINK);
 
         for (int i = 0; i < tableLines.size(); i++) {
@@ -173,9 +190,7 @@ public final class LootInfoPanel {
             }
         }
 
-        if (canLink) {
-            linkBox = new Box(x + 2, linkY - 1, WIDTH - 4, tableHeight + 2);
-        }
+        linkBox = new Box(x + 2, linkY - 1, WIDTH - 4, tableHeight + 2);
 
         int infoY = linkY + tableHeight + 7;
         graphics.fill(x + PAD, infoY - 3, x + WIDTH - PAD, infoY - 2, COLOR_SEPARATOR);
@@ -199,6 +214,66 @@ public final class LootInfoPanel {
         detailBox = new Box(x + 2, footerY - 1, WIDTH - 4, FOOTER + 1);
 
         panelBox = new Box(x, y, WIDTH, contentHeight);
+
+        if (linkHovered) {
+            Component tooltip = Component.translatable(canLink
+                    ? "container_loot_tip.link.tooltip"
+                    : "container_loot_tip.link.tooltip.copy");
+            graphics.renderTooltip(font, tooltip, mouseX, mouseY);
+        }
+    }
+
+    private static void renderTitleLink(GuiGraphics graphics, AbstractContainerScreen<?> screen, int mouseX, int mouseY) {
+        Font font = Minecraft.getInstance().font;
+        Component title = screen.getTitle();
+        int textWidth = font.width(title);
+        int x = (screen.getXSize() - textWidth) / 2;
+        int y = 6;
+        boolean canLink = TableOpeners.canOpen();
+        boolean hovered = mouseX >= x && mouseX < x + textWidth && mouseY >= y && mouseY < y + font.lineHeight;
+
+        titleLinkBox = new Box(x, y, textWidth, font.lineHeight);
+
+        if (!canLink) {
+            return;
+        }
+
+        int color = hovered ? COLOR_LINK_HOVER : COLOR_LINK;
+        graphics.drawString(font, title, x, y, color, false);
+        graphics.fill(x, y + font.lineHeight, x + textWidth, y + font.lineHeight + 1, color);
+
+        if (hovered) {
+            graphics.renderTooltip(font, Component.translatable("container_loot_tip.link.tooltip"), mouseX, mouseY);
+        }
+    }
+
+    private static boolean titleLinkClicked(double mouseX, double mouseY, ContainerLootInfo info) {
+        if (titleLinkBox == null || !titleLinkBox.contains(mouseX, mouseY)) {
+            return false;
+        }
+
+        if (Screen.hasShiftDown()) {
+            copyTableId(info);
+            return true;
+        }
+
+        if (!TableOpeners.canOpen()) {
+            return false;
+        }
+
+        openTable(info);
+        return true;
+    }
+
+    private static void openTable(ContainerLootInfo info) {
+        if (!TableOpeners.open(info.tableId())) {
+            message("container_loot_tip.link.not_found");
+        }
+    }
+
+    private static void copyTableId(ContainerLootInfo info) {
+        Minecraft.getInstance().keyboardHandler.setClipboard(info.tableId().toString());
+        message("container_loot_tip.link.copied");
     }
 
     private static List<Line> buildLines(ContainerLootInfo info, DetailLevel level) {
@@ -268,7 +343,17 @@ public final class LootInfoPanel {
         return Component.translatable("container_loot_tip.time.seconds", seconds);
     }
 
-    private static int panelX(AbstractContainerScreen<?> screen, int width) {
+    private static int panelX(AbstractContainerScreen<?> screen, int width, PanelSide side) {
+        if (side == PanelSide.RIGHT) {
+            int x = screen.getXSize() + 4;
+
+            if (screen.getGuiLeft() + x + width > screen.width - 2) {
+                x = screen.width - screen.getGuiLeft() - width - 2;
+            }
+
+            return x;
+        }
+
         int x = -width - 4;
 
         if (screen.getGuiLeft() + x < 2) {
