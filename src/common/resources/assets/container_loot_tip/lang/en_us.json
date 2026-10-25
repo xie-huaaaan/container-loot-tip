@@ -26,5 +26,8 @@
   "container_loot_tip.detail.compact": "Compact",
   "container_loot_tip.detail.detailed": "Detailed",
   "container_loot_tip.detail.changed": "Detail level: %s",
+  "container_loot_tip.link.tooltip": "Click to open the ALI page; Shift-click to copy the table ID",
+  "container_loot_tip.link.tooltip.copy": "Shift-click to copy the table ID",
+  "container_loot_tip.link.copied": "Loot table ID copied",
   "container_loot_tip.link.not_found": "No ALI page found for this loot table"
 }

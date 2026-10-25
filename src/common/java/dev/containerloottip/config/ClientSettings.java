@@ -14,14 +14,16 @@ import java.nio.file.StandardCopyOption;
 /**
  * Global client preferences persisted next to the other mod configs.
  *
- * <p>Both the collapsed state and the detail level are global rather than per container, matching
- * the requested behaviour: collapsing the panel once keeps it collapsed for every container.</p>
+ * <p>All preferences are global rather than per container. The file is the only way to change the
+ * panel mode and side, so changes take effect after the client restarts.</p>
  */
 public final class ClientSettings {
     private static final String FILE_NAME = "container_loot_tip-client.json";
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static ClientSettings instance;
 
+    private PanelMode panelMode = PanelMode.SIDEBAR;
+    private PanelSide panelSide = PanelSide.LEFT;
     private boolean collapsed;
     private DetailLevel detailLevel = DetailLevel.COMPACT;
 
@@ -34,6 +36,14 @@ public final class ClientSettings {
         }
 
         return instance;
+    }
+
+    public PanelMode panelMode() {
+        return panelMode;
+    }
+
+    public PanelSide panelSide() {
+        return panelSide;
     }
 
     public boolean isCollapsed() {
@@ -67,6 +77,8 @@ public final class ClientSettings {
             Data data = GSON.fromJson(json, Data.class);
 
             if (data != null) {
+                settings.panelMode = PanelMode.byName(data.panelMode);
+                settings.panelSide = PanelSide.byName(data.panelSide);
                 settings.collapsed = data.collapsed;
                 settings.detailLevel = DetailLevel.byName(data.detailLevel);
             }
@@ -85,6 +97,8 @@ public final class ClientSettings {
         }
 
         Data data = new Data();
+        data.panelMode = panelMode.name();
+        data.panelSide = panelSide.name();
         data.collapsed = collapsed;
         data.detailLevel = detailLevel.name();
 
@@ -110,6 +124,8 @@ public final class ClientSettings {
     }
 
     private static final class Data {
+        private String panelMode;
+        private String panelSide;
         private boolean collapsed;
         private String detailLevel;
     }

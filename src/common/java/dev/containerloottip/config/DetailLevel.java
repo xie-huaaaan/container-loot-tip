@@ -21,9 +21,13 @@ public enum DetailLevel {
     }
 
     public static DetailLevel byName(String name) {
-        for (DetailLevel level : values()) {
-            if (level.name().equals(name)) {
-                return level;
+        if (name != null) {
+            String normalized = name.trim();
+
+            for (DetailLevel level : values()) {
+                if (level.name().equalsIgnoreCase(normalized)) {
+                    return level;
+                }
             }
         }
 
