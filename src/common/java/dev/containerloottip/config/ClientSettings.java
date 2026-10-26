@@ -74,6 +74,12 @@ public final class ClientSettings {
 
         try {
             String json = Files.readString(path, StandardCharsets.UTF_8);
+
+            // Some Windows editors prepend a UTF-8 BOM, which Gson rejects.
+            if (!json.isEmpty() && json.charAt(0) == '\uFEFF') {
+                json = json.substring(1);
+            }
+
             Data data = GSON.fromJson(json, Data.class);
 
             if (data != null) {

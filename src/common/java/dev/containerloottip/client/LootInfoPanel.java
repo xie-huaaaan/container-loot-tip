@@ -227,7 +227,8 @@ public final class LootInfoPanel {
         Font font = Minecraft.getInstance().font;
         Component title = screen.getTitle();
         int textWidth = font.width(title);
-        int x = (screen.getXSize() - textWidth) / 2;
+        // Vanilla and Lootr screens keep the default title label at (8, 6).
+        int x = 8;
         int y = 6;
         boolean canLink = TableOpeners.canOpen();
         boolean hovered = mouseX >= x && mouseX < x + textWidth && mouseY >= y && mouseY < y + font.lineHeight;
