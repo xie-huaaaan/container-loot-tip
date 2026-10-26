@@ -9,6 +9,6 @@
 
 ## 界面与配置
 
-- `AbstractContainerScreen` 的标题默认画在 `(8, 6)`，不是居中；覆盖标题做链接时必须用原位置，否则会出现两个标题。
+- 覆盖容器标题时不要假设它居中，应读取 `titleLabelX/Y`。两个分支都要通过 AT 暴露字段：Forge 1.20.1 自动加载 `META-INF/accesstransformer.cfg`，NeoForge 1.21.1 还需要在 `neoforge.mods.toml` 声明 `[[accessTransformers]]`。
 - 读取客户端 JSON 前先剥离 UTF-8 BOM。Windows 编辑器可能自动添加 BOM，Gson 会因此解析失败并回退到默认值。
 - 验证配置功能时要使用目标分支实际构建的客户端；旧代码保存配置时会丢弃它不认识的字段，看起来像是配置被自动重置。
