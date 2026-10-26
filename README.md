@@ -6,7 +6,9 @@ English | [简体中文](README.zh-CN.md)
 
 Displays the source loot table and basic container info beside container GUIs, or as a link on the container title. When installed alongside **Advanced Loot Info (ALI)** and **JEI / EMI**, the loot table ID becomes a clickable link that opens the corresponding ALI page directly.
 
-![Preview](docs/assets/preview.png)
+![Sidebar mode](docs/assets/preview.png)
+
+![Title-link mode](docs/assets/preview1.png)
 
 ## ✨ Features
 
@@ -63,6 +65,10 @@ Client preferences live in `config/container_loot_tip-client.json`. There is no 
 
 Values are case-insensitive. Missing or invalid values fall back to the defaults. In `TITLE_LINK` mode there is no sidebar; if ALI and JEI/EMI are not installed, the screen looks unchanged.
 
+The file is created the first time the mod saves a preference. If it is missing, the defaults above are used. The file must be valid JSON; comments are not supported. Set `panelMode` to `TITLE_LINK` to obtain the behavior shown in the second screenshot.
+
+`collapsed` and `detailLevel` are also updated by the in-game panel buttons. `panelMode` and `panelSide` have no in-game controls and are only changed by editing this file. Close the game before editing, then restart; settings are cached while the game runs.
+
 ## ⚠️ Known Limitations
 
 - **Vanilla Container Consumption**: Vanilla Minecraft consumes and clears a container's loot table tag the moment it is opened for the first time. Because this mod captures the table on the server during that initial open event, **vanilla containers only show the panel the very first time they are opened** (containers opened prior to installing the mod cannot be recovered). Use **Lootr** if you want persistent loot table info.
@@ -99,4 +105,4 @@ Check out the target branch (`1.20.1-forge` or `1.21.1-neoforge`) and run:
 
 ## 📄 License
 
-Licensed under the [MIT License](https://www.google.com/search?q=LICENSE).
+Licensed under the [MIT](LICENSE) License.
