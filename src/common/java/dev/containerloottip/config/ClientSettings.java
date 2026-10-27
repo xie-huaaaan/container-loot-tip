@@ -12,20 +12,23 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 /**
- * Global client preferences persisted next to the other mod configs.
+ * Global client preferences persisted in the client config.
  *
- * <p>All preferences are global rather than per container. The file is the only way to change the
- * panel mode and side, so changes take effect after the client restarts.</p>
+ * <p>Once loaded, the file is checked periodically so external edits are picked up without a
+ * restart. In-game mutations reload the file first, preserving unrelated manual changes.</p>
  */
 public final class ClientSettings {
     private static final String FILE_NAME = "container_loot_tip-client.json";
+    private static final int RELOAD_INTERVAL_TICKS = 20;
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static ClientSettings instance;
+    private static int reloadTicks = RELOAD_INTERVAL_TICKS;
 
     private PanelMode panelMode = PanelMode.SIDEBAR;
     private PanelSide panelSide = PanelSide.LEFT;
     private boolean collapsed;
     private DetailLevel detailLevel = DetailLevel.COMPACT;
+    private long lastModified;
 
     private ClientSettings() {
     }
@@ -33,9 +36,25 @@ public final class ClientSettings {
     public static synchronized ClientSettings get() {
         if (instance == null) {
             instance = load();
+            reloadTicks = RELOAD_INTERVAL_TICKS;
         }
 
         return instance;
+    }
+
+    /** Called from the client tick loop to detect external config changes. */
+    public static synchronized void tick() {
+        if (instance == null) {
+            return;
+        }
+
+        if (reloadTicks > 0) {
+            reloadTicks--;
+            return;
+        }
+
+        reloadTicks = RELOAD_INTERVAL_TICKS;
+        instance.reloadIfChanged();
     }
 
     public PanelMode panelMode() {
@@ -54,45 +73,96 @@ public final class ClientSettings {
         return detailLevel;
     }
 
-    public void setCollapsed(boolean collapsed) {
+    public synchronized void setPanelMode(PanelMode panelMode) {
+        reloadIfChanged();
+        this.panelMode = panelMode;
+        save();
+    }
+
+    public synchronized void setPanelSide(PanelSide panelSide) {
+        reloadIfChanged();
+        this.panelSide = panelSide;
+        save();
+    }
+
+    public synchronized void setCollapsed(boolean collapsed) {
+        reloadIfChanged();
         this.collapsed = collapsed;
         save();
     }
 
-    public void cycleDetailLevel() {
+    public synchronized void setDetailLevel(DetailLevel detailLevel) {
+        reloadIfChanged();
+        this.detailLevel = detailLevel;
+        save();
+    }
+
+    public synchronized void cycleDetailLevel() {
+        reloadIfChanged();
         detailLevel = detailLevel.next();
         save();
+    }
+
+    public synchronized void reloadIfChanged() {
+        Path path = settingsPath();
+
+        if (path == null || !Files.isRegularFile(path)) {
+            return;
+        }
+
+        long modified = modifiedTime(path);
+
+        if (modified == lastModified) {
+            return;
+        }
+
+        try {
+            apply(read(path));
+        } catch (Exception e) {
+            ContainerLootTip.LOGGER.warn("Unable to reload client settings from {}", path, e);
+        }
+
+        lastModified = modified;
     }
 
     private static ClientSettings load() {
         ClientSettings settings = new ClientSettings();
         Path path = settingsPath();
-
-        if (path == null || !Files.isRegularFile(path)) {
-            return settings;
-        }
+        settings.lastModified = modifiedTime(path);
 
         try {
-            String json = Files.readString(path, StandardCharsets.UTF_8);
-
-            // Some Windows editors prepend a UTF-8 BOM, which Gson rejects.
-            if (!json.isEmpty() && json.charAt(0) == '\uFEFF') {
-                json = json.substring(1);
-            }
-
-            Data data = GSON.fromJson(json, Data.class);
-
-            if (data != null) {
-                settings.panelMode = PanelMode.byName(data.panelMode);
-                settings.panelSide = PanelSide.byName(data.panelSide);
-                settings.collapsed = data.collapsed;
-                settings.detailLevel = DetailLevel.byName(data.detailLevel);
-            }
+            settings.apply(read(path));
         } catch (Exception e) {
             ContainerLootTip.LOGGER.warn("Unable to read client settings from {}", path, e);
         }
 
         return settings;
+    }
+
+    private void apply(Data data) {
+        if (data == null) {
+            return;
+        }
+
+        panelMode = PanelMode.byName(data.panelMode);
+        panelSide = PanelSide.byName(data.panelSide);
+        collapsed = data.collapsed;
+        detailLevel = DetailLevel.byName(data.detailLevel);
+    }
+
+    private static Data read(Path path) throws IOException {
+        if (path == null || !Files.isRegularFile(path)) {
+            return null;
+        }
+
+        String json = Files.readString(path, StandardCharsets.UTF_8);
+
+        // Some Windows editors prepend a UTF-8 BOM, which Gson rejects.
+        if (!json.isEmpty() && json.charAt(0) == '\uFEFF') {
+            json = json.substring(1);
+        }
+
+        return GSON.fromJson(json, Data.class);
     }
 
     private void save() {
@@ -116,8 +186,21 @@ public final class ClientSettings {
             Path temporary = path.resolveSibling(path.getFileName() + ".tmp");
             Files.writeString(temporary, GSON.toJson(data), StandardCharsets.UTF_8);
             Files.move(temporary, path, StandardCopyOption.REPLACE_EXISTING);
+            lastModified = modifiedTime(path);
         } catch (IOException e) {
             ContainerLootTip.LOGGER.warn("Unable to save client settings to {}", path, e);
+        }
+    }
+
+    private static long modifiedTime(Path path) {
+        if (path == null || !Files.isRegularFile(path)) {
+            return 0L;
+        }
+
+        try {
+            return Files.getLastModifiedTime(path).toMillis();
+        } catch (IOException e) {
+            return 0L;
         }
     }
 

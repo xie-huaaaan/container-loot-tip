@@ -18,7 +18,7 @@ Displays the source loot table and basic container info beside container GUIs, o
 - **One-Click Lookup**: When ALI + ACI and JEI or EMI are present, clicking the loot table ID or title opens its exact loot table page in JEI/EMI.
 - **Copy Table ID**: Shift-click the loot table ID or title to copy it to the clipboard.
 - **Lootr Integration**: Displays opener counts, refresh and decay timers for Lootr containers when available.
-- **Persistent Preferences**: Panel mode, side, collapse state and detail level are saved globally in the client configuration.
+- **Persistent Preferences**: Panel mode, side, collapse state and detail level are saved globally and can be changed through the config file or client commands.
 
 ## 📦 Installation & Compatibility
 
@@ -45,7 +45,7 @@ All integrations are completely optional. The mod runs standalone and enables fe
 
 ## ⚙️ Configuration
 
-Client preferences live in `config/container_loot_tip-client.json`. There is no in-game settings screen, so edit the file and restart the client.
+Client preferences live in `config/container_loot_tip-client.json`. There is no in-game settings screen, but the file is watched automatically and can also be changed with client commands.
 
 ```json
 {
@@ -63,11 +63,18 @@ Client preferences live in `config/container_loot_tip-client.json`. There is no 
 | `collapsed` | `true`, `false` | `false` | Sidebar collapse state; ignored in `TITLE_LINK` mode |
 | `detailLevel` | `COMPACT`, `DETAILED` | `COMPACT` | Amount of info shown in the sidebar |
 
-Values are case-insensitive. Missing or invalid values fall back to the defaults. In `TITLE_LINK` mode there is no sidebar; if ALI and JEI/EMI are not installed, the screen looks unchanged.
+Values are case-insensitive. Missing or invalid values fall back to the defaults. The file must be valid JSON; comments are not supported. It is created the first time the mod saves a preference.
 
-The file is created the first time the mod saves a preference. If it is missing, the defaults above are used. The file must be valid JSON; comments are not supported. Set `panelMode` to `TITLE_LINK` to obtain the behavior shown in the second screenshot.
+The config is checked about once per second while the game is running, so external edits are applied without a restart. A manual reload command is intentionally not provided.
 
-`collapsed` and `detailLevel` are also updated by the in-game panel buttons. `panelMode` and `panelSide` have no in-game controls and are only changed by editing this file. Close the game before editing, then restart; settings are cached while the game runs.
+| Command | Description |
+| --- | --- |
+| `/container_loot_tip mode <SIDEBAR\|TITLE_LINK>` | Switch between the sidebar and title-link modes |
+| `/container_loot_tip side <LEFT\|RIGHT>` | Move the sidebar |
+| `/container_loot_tip detail <COMPACT\|DETAILED>` | Change the sidebar detail level |
+| `/container_loot_tip collapse <true\|false>` | Collapse or expand the sidebar |
+
+Commands save the whole setting back to the same JSON file. The in-game panel buttons can also change `collapsed` and `detailLevel`. In `TITLE_LINK` mode there is no sidebar; if ALI and JEI/EMI are not installed, the screen looks unchanged.
 
 ## ⚠️ Known Limitations
 
