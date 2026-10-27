@@ -21,6 +21,11 @@ public enum DetailLevel {
     }
 
     public static DetailLevel byName(String name) {
+        DetailLevel level = parse(name);
+        return level == null ? COMPACT : level;
+    }
+
+    public static DetailLevel parse(String name) {
         if (name != null) {
             String normalized = name.trim();
 
@@ -31,6 +36,6 @@ public enum DetailLevel {
             }
         }
 
-        return COMPACT;
+        return null;
     }
 }
