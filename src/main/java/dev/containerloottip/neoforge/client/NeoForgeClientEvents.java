@@ -1,15 +1,19 @@
 package dev.containerloottip.neoforge.client;
 
 import dev.containerloottip.ContainerLootTip;
+import dev.containerloottip.client.ClientCommand;
 import dev.containerloottip.client.ClientLootInfoCache;
 import dev.containerloottip.client.LootInfoPanel;
+import dev.containerloottip.config.ClientSettings;
 import dev.containerloottip.info.ContainerLootInfo;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.ContainerScreenEvent;
+import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
 
 /** Client hooks that draw and route clicks to the shared panel. */
@@ -39,6 +43,16 @@ public final class NeoForgeClientEvents {
         if (info != null && LootInfoPanel.mouseClicked(event.getMouseX(), event.getMouseY(), event.getButton(), screen, info)) {
             event.setCanceled(true);
         }
+    }
+
+    @SubscribeEvent
+    public static void onRegisterClientCommands(RegisterClientCommandsEvent event) {
+        ClientCommand.register(event.getDispatcher());
+    }
+
+    @SubscribeEvent
+    public static void onClientTick(ClientTickEvent.Post event) {
+        ClientSettings.tick();
     }
 
     @SubscribeEvent
