@@ -4,7 +4,6 @@ import dev.containerloottip.ContainerLootTip;
 import dev.containerloottip.client.ClientCommand;
 import dev.containerloottip.client.ClientLootInfoCache;
 import dev.containerloottip.client.LootInfoPanel;
-import dev.containerloottip.config.ClientSettings;
 import dev.containerloottip.info.ContainerLootInfo;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraftforge.api.distmarker.Dist;
@@ -12,7 +11,6 @@ import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.ContainerScreenEvent;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.client.event.ScreenEvent;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -48,13 +46,6 @@ public final class ForgeClientEvents {
     @SubscribeEvent
     public static void onRegisterClientCommands(RegisterClientCommandsEvent event) {
         ClientCommand.register(event.getDispatcher());
-    }
-
-    @SubscribeEvent
-    public static void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.END) {
-            ClientSettings.tick();
-        }
     }
 
     @SubscribeEvent
