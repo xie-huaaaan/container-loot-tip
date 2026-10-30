@@ -4,14 +4,12 @@ import dev.containerloottip.ContainerLootTip;
 import dev.containerloottip.client.ClientCommand;
 import dev.containerloottip.client.ClientLootInfoCache;
 import dev.containerloottip.client.LootInfoPanel;
-import dev.containerloottip.config.ClientSettings;
 import dev.containerloottip.info.ContainerLootInfo;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.ContainerScreenEvent;
 import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
 import net.neoforged.neoforge.client.event.ScreenEvent;
@@ -48,11 +46,6 @@ public final class NeoForgeClientEvents {
     @SubscribeEvent
     public static void onRegisterClientCommands(RegisterClientCommandsEvent event) {
         ClientCommand.register(event.getDispatcher());
-    }
-
-    @SubscribeEvent
-    public static void onClientTick(ClientTickEvent.Post event) {
-        ClientSettings.tick();
     }
 
     @SubscribeEvent
