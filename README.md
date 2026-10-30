@@ -4,7 +4,7 @@ English | [简体中文](README.zh-CN.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Minecraft](https://img.shields.io/badge/Minecraft-1.20.1%20%7C%201.21.1-green.svg)](#) [![Loader](https://img.shields.io/badge/Loader-Forge%20%7C%20NeoForge-orange.svg)](#)
 
-Displays the source loot table and basic container info beside container GUIs, or as a link on the container title. When installed alongside **Advanced Loot Info (ALI)** and **JEI / EMI**, the loot table ID becomes a clickable link that opens the corresponding ALI page directly.
+Displays the source loot table and basic container info beside container GUIs, or as a link on the container title. When installed alongside **[Advanced Loot Info (ALI)](https://github.com/yanny7/AdvancedLootInfo)** and **[JEI](https://github.com/mezz/JustEnoughItems) / EMI**, the loot table ID becomes a clickable link that opens the corresponding ALI page directly.
 
 ![Sidebar mode](docs/assets/preview.png)
 
@@ -15,9 +15,9 @@ Displays the source loot table and basic container info beside container GUIs, o
 - **Collapsible Info Panel**: Adds a **toggleable** panel to the left or right side of container screens that use loot tables.
 - **Detailed Metadata**: Displays the loot table ID, source (`Vanilla` / `Lootr`), container type, and slot count. Easily toggle between **Compact** and **Detailed** views.
 - **Title-Link Mode**: Can hide the panel entirely and turn the container title into the link instead.
-- **One-Click Lookup**: When ALI + ACI and JEI or EMI are present, clicking the loot table ID or title opens its exact loot table page in JEI/EMI.
+- **One-Click Lookup**: When [ALI](https://github.com/yanny7/AdvancedLootInfo) + ACI and [JEI](https://github.com/mezz/JustEnoughItems) or EMI are present, clicking the loot table ID or title opens its exact loot table page in JEI/EMI.
 - **Copy Table ID**: Shift-click the loot table ID or title to copy it to the clipboard.
-- **Lootr Integration**: Displays opener counts, refresh and decay timers for Lootr containers when available.
+- **Lootr Integration**: Displays opener counts, refresh and decay timers for [Lootr](https://github.com/LootrMinecraft/Lootr) containers when available.
 - **Persistent Preferences**: Panel mode, side, collapse state and detail level are saved globally and can be changed through the config file or client commands.
 
 ## 📦 Installation & Compatibility
@@ -39,9 +39,9 @@ All integrations are completely optional. The mod runs standalone and enables fe
 
 | Mod | Purpose | Behavior When Missing |
 | --- | --- | --- |
-| **Lootr** | Preserves per-player loot and provides opener, refresh, and decay info | Vanilla containers still work, but tables are only visible on first open |
-| **ALI + ACI** | Provides loot table detail pages (*Advanced Loot Info* & *Advanced Core Info*) | Table ID and basic info are shown, but the ID is not clickable |
-| **JEI or EMI** | Displays ALI pages (either one works; REI is not planned) | Same as above; table ID is not clickable |
+| **[Lootr](https://github.com/LootrMinecraft/Lootr)** | Preserves per-player loot and provides opener, refresh, and decay info | Vanilla containers still work, but tables are only visible on first open |
+| **[ALI](https://github.com/yanny7/AdvancedLootInfo) + ACI** | Provides loot table detail pages (*Advanced Loot Info* & *Advanced Core Info*) | Table ID and basic info are shown, but the ID is not clickable |
+| **[JEI](https://github.com/mezz/JustEnoughItems) or EMI** | Displays ALI pages (either one works; REI is not planned) | Same as above; table ID is not clickable |
 
 ## ⚙️ Configuration
 
@@ -67,16 +67,16 @@ Values are case-insensitive. Missing or invalid values fall back to the defaults
 
 | Command | Description |
 | --- | --- |
-| `/container_loot_tip mode <SIDEBAR\|TITLE_LINK>` | Switch between the sidebar and title-link modes |
-| `/container_loot_tip side <LEFT\|RIGHT>` | Move the sidebar |
-| `/container_loot_tip detail <COMPACT\|DETAILED>` | Change the sidebar detail level |
-| `/container_loot_tip collapse <true\|false>` | Collapse or expand the sidebar |
+| `/container_loot_tip mode <SIDEBAR | TITLE_LINK>` | Switch between the sidebar and title-link modes |
+| `/container_loot_tip side <LEFT | RIGHT>` | Move the sidebar |
+| `/container_loot_tip detail <COMPACT | DETAILED>` | Change the sidebar detail level |
+| `/container_loot_tip collapse <true | false>` | Collapse or expand the sidebar |
 
-Commands update the in-game settings immediately and save the whole setting back to the same JSON file. Edits made directly to the file are read when the client starts. The in-game panel buttons can also change `collapsed` and `detailLevel`. In `TITLE_LINK` mode there is no sidebar, if ALI and JEI/EMI are not installed, the screen looks unchanged.
+Commands update the in-game settings immediately and save the whole setting back to the same JSON file. Edits made directly to the file are read when the client starts. The in-game panel buttons can also change `collapsed` and `detailLevel`. In `TITLE_LINK` mode there is no sidebar, if [ALI](https://github.com/yanny7/AdvancedLootInfo) and [JEI](https://github.com/mezz/JustEnoughItems)/EMI are not installed, the screen looks unchanged.
 
 ## ⚠️ Known Limitations
 
-- **Vanilla Container Consumption**: Vanilla Minecraft consumes and clears a container's loot table tag the moment it is opened for the first time. Because this mod captures the table on the server during that initial open event, **vanilla containers only show the panel the very first time they are opened** (containers opened prior to installing the mod cannot be recovered). Use **Lootr** if you want persistent loot table info.
+- **Vanilla Container Consumption**: Vanilla Minecraft consumes and clears a container's loot table tag the moment it is opened for the first time. Because this mod captures the table on the server during that initial open event, **vanilla containers only show the panel the very first time they are opened** (containers opened prior to installing the mod cannot be recovered). Use **[Lootr](https://github.com/LootrMinecraft/Lootr)** if you want persistent loot table info.
 - **Supported Containers**: Containers without a GUI are not supported, and the mod does not attempt to infer loot tables for custom containers outside of Vanilla and Lootr.
 
 ## 🛠️ Building & Development
