@@ -67,10 +67,10 @@
 
 | 命令 | 说明 |
 | --- | --- |
-| `/container_loot_tip mode <SIDEBAR | TITLE_LINK>` | 在侧栏和标题链接模式之间切换 |
-| `/container_loot_tip side <LEFT | RIGHT>` | 调整侧栏位置 |
-| `/container_loot_tip detail <COMPACT | DETAILED>` | 调整侧栏详细度 |
-| `/container_loot_tip collapse <true | false>` | 折叠或展开侧栏 |
+| `/container_loot_tip mode <SIDEBAR \| TITLE_LINK>` | 在侧栏和标题链接模式之间切换 |
+| `/container_loot_tip side <LEFT \| RIGHT>` | 调整侧栏位置 |
+| `/container_loot_tip detail <COMPACT \| DETAILED>` | 调整侧栏详细度 |
+| `/container_loot_tip collapse <true \| false>` | 折叠或展开侧栏 |
 
 命令会立即更新游戏内设置，并将完整配置写回同一个 JSON 文件；直接编辑配置文件则在客户端启动时读取。`collapsed` 和 `detailLevel` 也可以通过游戏内的面板按钮修改。`TITLE_LINK` 模式不显示侧栏，未安装 [ALI](https://github.com/yanny7/AdvancedLootInfo) 和 [JEI](https://github.com/mezz/JustEnoughItems)/EMI 时界面与原版完全一致。
 

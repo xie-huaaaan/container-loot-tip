@@ -67,10 +67,10 @@ Values are case-insensitive. Missing or invalid values fall back to the defaults
 
 | Command | Description |
 | --- | --- |
-| `/container_loot_tip mode <SIDEBAR | TITLE_LINK>` | Switch between the sidebar and title-link modes |
-| `/container_loot_tip side <LEFT | RIGHT>` | Move the sidebar |
-| `/container_loot_tip detail <COMPACT | DETAILED>` | Change the sidebar detail level |
-| `/container_loot_tip collapse <true | false>` | Collapse or expand the sidebar |
+| `/container_loot_tip mode <SIDEBAR \| TITLE_LINK>` | Switch between the sidebar and title-link modes |
+| `/container_loot_tip side <LEFT \| RIGHT>` | Move the sidebar |
+| `/container_loot_tip detail <COMPACT \| DETAILED>` | Change the sidebar detail level |
+| `/container_loot_tip collapse <true \| false>` | Collapse or expand the sidebar |
 
 Commands update the in-game settings immediately and save the whole setting back to the same JSON file. Edits made directly to the file are read when the client starts. The in-game panel buttons can also change `collapsed` and `detailLevel`. In `TITLE_LINK` mode there is no sidebar, if [ALI](https://github.com/yanny7/AdvancedLootInfo) and [JEI](https://github.com/mezz/JustEnoughItems)/EMI are not installed, the screen looks unchanged.
 
