@@ -45,7 +45,7 @@
 
 ## ⚙️ 配置
 
-客户端选项保存在 `config/container_loot_tip-client.json`。游戏内不提供设置界面，但模组会自动检测文件变化，也可以通过客户端命令修改。
+客户端选项保存在 `config/container_loot_tip-client.json`。游戏内不提供设置界面，可以通过配置文件或客户端命令修改。
 
 ```json
 {
@@ -65,8 +65,6 @@
 
 配置值不区分大小写；缺失或无效值会回退到默认值。配置必须是合法 JSON，不支持注释。配置文件会在模组首次保存偏好时自动创建。
 
-游戏运行期间，模组大约每秒检查一次配置文件，因此外部修改无需重启即可生效。为避免增加不必要的命令，暂不提供手动 reload 命令。
-
 | 命令 | 说明 |
 | --- | --- |
 | `/container_loot_tip mode <SIDEBAR\|TITLE_LINK>` | 在侧栏和标题链接模式之间切换 |
@@ -74,7 +72,7 @@
 | `/container_loot_tip detail <COMPACT\|DETAILED>` | 调整侧栏详细度 |
 | `/container_loot_tip collapse <true\|false>` | 折叠或展开侧栏 |
 
-命令会将完整配置写回同一个 JSON 文件；`collapsed` 和 `detailLevel` 也可以通过游戏内的面板按钮修改。`TITLE_LINK` 模式不显示侧栏；未安装 ALI 和 JEI/EMI 时界面与原版完全一致。
+命令会立即更新游戏内设置，并将完整配置写回同一个 JSON 文件；直接编辑配置文件则在客户端启动时读取。`collapsed` 和 `detailLevel` 也可以通过游戏内的面板按钮修改。`TITLE_LINK` 模式不显示侧栏；未安装 ALI 和 JEI/EMI 时界面与原版完全一致。
 
 ## ⚠️ 注意事项与限制
 
