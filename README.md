@@ -72,7 +72,7 @@ Values are case-insensitive. Missing or invalid values fall back to the defaults
 | `/container_loot_tip detail <COMPACT\|DETAILED>` | Change the sidebar detail level |
 | `/container_loot_tip collapse <true\|false>` | Collapse or expand the sidebar |
 
-Commands update the in-game settings immediately and save the whole setting back to the same JSON file. Edits made directly to the file are read when the client starts. The in-game panel buttons can also change `collapsed` and `detailLevel`. In `TITLE_LINK` mode there is no sidebar; if ALI and JEI/EMI are not installed, the screen looks unchanged.
+Commands update the in-game settings immediately and save the whole setting back to the same JSON file. Edits made directly to the file are read when the client starts. The in-game panel buttons can also change `collapsed` and `detailLevel`. In `TITLE_LINK` mode there is no sidebar, if ALI and JEI/EMI are not installed, the screen looks unchanged.
 
 ## ⚠️ Known Limitations
 
