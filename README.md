@@ -45,7 +45,7 @@ All integrations are completely optional. The mod runs standalone and enables fe
 
 ## ⚙️ Configuration
 
-Client preferences live in `config/container_loot_tip-client.json`. There is no in-game settings screen, but the file is watched automatically and can also be changed with client commands.
+Client preferences live in `config/container_loot_tip-client.json`. There is no in-game settings screen; use the config file or the client commands below.
 
 ```json
 {
@@ -65,8 +65,6 @@ Client preferences live in `config/container_loot_tip-client.json`. There is no 
 
 Values are case-insensitive. Missing or invalid values fall back to the defaults. The file must be valid JSON; comments are not supported. It is created the first time the mod saves a preference.
 
-The config is checked about once per second while the game is running, so external edits are applied without a restart. A manual reload command is intentionally not provided.
-
 | Command | Description |
 | --- | --- |
 | `/container_loot_tip mode <SIDEBAR\|TITLE_LINK>` | Switch between the sidebar and title-link modes |
@@ -74,7 +72,7 @@ The config is checked about once per second while the game is running, so extern
 | `/container_loot_tip detail <COMPACT\|DETAILED>` | Change the sidebar detail level |
 | `/container_loot_tip collapse <true\|false>` | Collapse or expand the sidebar |
 
-Commands save the whole setting back to the same JSON file. The in-game panel buttons can also change `collapsed` and `detailLevel`. In `TITLE_LINK` mode there is no sidebar; if ALI and JEI/EMI are not installed, the screen looks unchanged.
+Commands update the in-game settings immediately and save the whole setting back to the same JSON file. Edits made directly to the file are read when the client starts. The in-game panel buttons can also change `collapsed` and `detailLevel`. In `TITLE_LINK` mode there is no sidebar; if ALI and JEI/EMI are not installed, the screen looks unchanged.
 
 ## ⚠️ Known Limitations
 
