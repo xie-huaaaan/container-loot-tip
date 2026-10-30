@@ -34,7 +34,7 @@ Container Loot Tip（mod id `container_loot_tip`）：在带战利品表的容�
 - 模组元数据中的 Lootr/ALI/ACI/JEI/EMI 依赖必须标记为 optional；禁止把它们写成 required。
 - 仅 JEI/EMI 支持 ALI 精确跳转。REI-only 或无查看器时，表名降级为普通文本。
 - 用户可见文本进 lang（`en_us` + `zh_cn`）；代码标识符用英文。
-- 客户端可配置项通过 `config/container_loot_tip-client.json` 或客户端命令修改，不提供游戏内设置界面；配置文件会自动热重载，无需重启。
+- 客户端可配置项通过 `config/container_loot_tip-client.json` 或客户端命令修改，不提供游戏内设置界面；命令即时生效，直接编辑配置文件则重启客户端后生效。
 - 模组 ID 使用 `container_loot_tip`：加载器只接受小写字母、数字和下划线。发布文件名使用 kebab-case，由 `base.archivesName` 生成 `container-loot-tip-<mc>-<loader>-<version>.jar`。
 - 公开文档保持英文与简体中文同步：`README.md` 为英文，`README.zh-CN.md` 为简体中文。
 - 类/模块用 Javadoc 说明用途；其余注释只解释“为什么”，只有在功能不明显时才说明“做了什么”。
@@ -48,7 +48,7 @@ Container Loot Tip（mod id `container_loot_tip`）：在带战利品表的容�
 - 不要在提交的配置或文档中写入本机路径；通过 `JAVA_HOME` 或 Gradle 工具链检测选择 JDK。
 - 每次改动至少跑对应分支的 `build`，命令见 `README.md`。
 - 游戏内实测由维护者执行：完成构建后列出待测项，等待维护者提供截图或描述，不启动客户端做 UI 自动化。
-- 关键手动检查：原版首次打开/重开、Lootr 箱子/木桶/潜影盒、两档详细度、左右侧栏与箭头方向、标题链接模式、Shift 复制、配置命令与自动热重载、收起持久化、JEI/EMI 跳转、ALI 缺失、仅 REI。
+- 关键手动检查：原版首次打开/重开、Lootr 箱子/木桶/潜影盒、两档详细度、左右侧栏与箭头方向、标题链接模式、Shift 复制、配置命令、收起持久化、JEI/EMI 跳转、ALI 缺失、仅 REI。
 - 安装组合检查：仅客户端、仅服务端（原版客户端进服）、双端、双端且缺少各个可选 mod。服务端只装本模组时绝不能因发包导致客户端断线。
 - 发布前用普通启动器加载 `build/libs/` 中的 jar，按正常玩家环境复测。
 
